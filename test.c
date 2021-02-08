@@ -1,8 +1,18 @@
+#define VIEW 1
+#define SEARCH 2
+#define ADD 3
+#define UPDATE 4
+#define DELETE 5
+#define STAFF_VIEW 6
+#define STAFF_ADDITION 7
+#define STAFF_UPDATE 8
+#define STAFF_DELETION 9
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Header.h"
-//check
+
 
 void func() {
 
@@ -23,6 +33,28 @@ user user_validation() {
 	user user_var;
 	return user_var;
 }
+
+void view_func();
+void load_files() {
+	FILE* fin;
+	fin = fopen("testFile.dat", "r");
+	if (fin == NULL);
+	{
+		printf("File not found\n");
+		printf("creating new file\n");
+
+	}
+	fclose(fin);
+}
+void create_admin();
+void update_func();
+void add_func();
+void search_func();
+void delete_func();
+void staff_view_func();
+void staff_addition_func();
+void staff_update_func();
+void staff_deletion_func();
 
 void main() {
 	//load the project files
@@ -58,32 +90,32 @@ void main() {
 
 		switch (action)
 		{
-		case(1): //view
-			//1
+		case(VIEW): // view - 1
+			view_func();
 			break;
-		case(2): //, search, 
-			//2
+		case(SEARCH): // search - 2
+			search_func();
 			break;
-		case(3): //add, 
-			//3
+		case(ADD): // add - 3
+			add_func();
 			break;
-		case(4): // update, 
-			//4
+		case(UPDATE): // update - 4
+			update_func();
 			break;
-		case(5): //delete, 
-			//5
+		case(DELETE): // delete - 5
+			delete_func();
 			break;
-		case(6): //staff-view
-			//6
+		case(STAFF_VIEW): // staff-view - 6
+			staff_view_func();
 			break;
-		case(7): //, staff-addition, 
-			//7
+		case(STAFF_ADDITION): // staff-addition - 7
+			staff_addition_func();
 			break;
-		case(8): //, staff-update, 
-			//7
+		case(STAFF_UPDATE): // staff-update - 8
+			staff_update_func();
 			break;
-		case(9): //, staff-deletion , 
-			//7
+		case(STAFF_DELETION): // staff-deletion - 9
+			staff_deletion_func();
 			break;
 		}
 	}
