@@ -15,7 +15,7 @@ typedef struct device
 	char txt1[15];
 	float price;
 	bool stock;
-	char date[15]
+	char date[15];
 }device;
 
-void func(var);
+//void func(var);

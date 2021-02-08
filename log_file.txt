@@ -1,0 +1,75 @@
+warning: Time:Mon Feb  8 18:02:51 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(25), Function:func "check"
+warning:  Time:Mon Feb  8 18:08:16 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(25), Function:func 
+	Message: CHECK
+warning:  Time:Mon Feb  8 18:10:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(25), Function:func 
+	Message: CHECK
+warning:  Time:Mon Feb  8 18:10:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(26), Function:func 
+	Message: CHECK
+ERROR:  Time:Mon Feb  8 18:10:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(27), Function:func 
+	Message: CHECK
+warning:  Time:Mon Feb  8 18:11:57 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(25), Function:func 
+	 warningMessage: CHECK
+warning:  Time:Mon Feb  8 18:11:57 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(26), Function:func 
+	 warningMessage: CHECK
+ERROR:  Time:Mon Feb  8 18:11:57 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(27), Function:func 
+	 ERRORMessage: CHECK
+warning:  Time:Mon Feb  8 18:13:18 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(25), Function:func 
+	warning Message: CHECK
+warning:  Time:Mon Feb  8 18:13:18 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(26), Function:func 
+	warning Message: CHECK
+ERROR:  Time:Mon Feb  8 18:13:18 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(27), Function:func 
+	ERROR Message: CHECK
+INFO:  Time:Mon Feb  8 18:48:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(90), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:48:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(91), Function:main 
+	INFO Message: check2
+INFO:  Time:Mon Feb  8 18:48:26 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(92), Function:main 
+	INFO Message: check3
+INFO:  Time:Mon Feb  8 18:49:31 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(92), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:49:31 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: var
+INFO:  Time:Mon Feb  8 18:49:31 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: str
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(92), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: "14290979"
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: "�8"
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(92), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: "14290979"
+INFO:  Time:Mon Feb  8 18:51:59 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: "�8"
+INFO:  Time:Mon Feb  8 18:55:37 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:55:37 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: 3
+INFO:  Time:Mon Feb  8 18:55:37 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(95), Function:main 
+	INFO Message: check
+INFO:  Time:Mon Feb  8 18:57:11 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 18:57:11 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: 3
+INFO:  Time:Mon Feb  8 18:57:11 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(95), Function:main 
+	INFO Message: s
+INFO:  Time:Mon Feb  8 19:01:55 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 19:01:55 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: 3 check 3018787
+INFO:  Time:Mon Feb  8 19:01:55 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(95), Function:main 
+	INFO Message: s
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: 3 check 3543075
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(95), Function:main 
+	INFO Message: s
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(93), Function:main 
+	INFO Message: check1
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(94), Function:main 
+	INFO Message: 3 check 3543075
+INFO:  Time:Mon Feb  8 19:03:25 2021, File:C:\Users\shahafe\source\repos\final_project_c_shahaf_roi\test.c(95), Function:main 
+	INFO Message: s
