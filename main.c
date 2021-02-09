@@ -16,15 +16,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Header.h"
+#include "binary_tree.h"
 
 FILE* logFile;
 errno_t err;
 #define LOG(log_level, msg) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__)
 #define LOG_VAR(log_level, msg, var) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__, var)
+//use example --> LOG(WARNING, "message")
+//use example --> LOG(WARNING, "mesasge with var %d", var)
 
-void func() {
-
-}
+void func() {}
 
 
 
@@ -33,9 +34,10 @@ bool check_if_there_are_files() {
 	return bvar;
 }
 
-user user_validation() {
+user user_validation(tree** root) {
 	// input username
-	// check if username exist in users-file
+
+	// check if username exist in users-BS-Tree
 	// input password
 	// check if password correct
 	user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
@@ -68,7 +70,11 @@ void end_func() {
 	err = fclose(logFile);
 }
 
-void create_admin() {}
+user create_admin() {
+	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" ,.id = 123456789 };
+
+	return admin_user;
+}
 
 void update_func() {}
 
@@ -87,21 +93,24 @@ void staff_update_func() {}
 void staff_deletion_func() {}
 
 void main() {
-	//init_func();
+
+	init_func();
+	tree* root = NULL;
 	//load the project files
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
-	if (fopen_s(wfPtr, "worket.dat", "a") || feof(wfPtr)) { // try to open file
-		printf("File could not be found\n");
+	if (fopen_s(wfPtr, "worker.dat", "a") || feof(wfPtr)) { // try to open file
+		printf("File could not be found OR file is empty\n");
 		printf("opening new file\n");
-		create_admin();
+		user admin_user = create_admin();
+		insert_iterative(&root, admin_user);
 	}
 	else { // file exist
 		//load_file
 		//fprintf();
 	}
 	//put in your username and password
-	user usr_var = user_validation();
+	user usr_var = user_validation(&root);
 	while (true)
 	{
 		if (usr_var.level = 1) //permissions - view, search, add

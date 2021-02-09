@@ -1,11 +1,14 @@
 #pragma once
 
+#include <stdbool.h>
+
 typedef struct user
 {
 	char username[15];
 	char password[15];
 	int level;
 	char fullname[20];
+	unsigned int id;
 }user;
 
 typedef struct device

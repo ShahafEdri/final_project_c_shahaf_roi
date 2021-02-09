@@ -139,17 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="test.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="binary_tree.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+    <ClInclude Include="binary_tree.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="biographi.txt" />
     <Text Include="log_file.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="worket.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
