@@ -53,7 +53,7 @@ void insert_iterative(tree** root, tree_type data)
 
 		while (1)
 		{
-			if (data.id < cursor->data.id)
+			if (isNegative(strcmp(data.username, cursor->data.username)))
 			{
 				if (cursor->left)
 					cursor = cursor->left;
@@ -63,7 +63,7 @@ void insert_iterative(tree** root, tree_type data)
 					return;
 				}
 			}
-			else if (data.id > cursor->data.id)
+			else if (isNegative(strcmp(data.username, cursor->data.username)))
 			{
 				if (cursor->right)
 					cursor = cursor->right;
@@ -91,11 +91,11 @@ void insert_recursive(tree** root, tree* parent, tree_type data)
 		return;
 	}
 
-	if (data.id < (*root)->data.id)
+	if (isNegative(strcmp(data.username, (*root)->data.username)))
 	{
 		insert_recursive(&(*root)->left, *root, data);
 	}
-	else if (data.id > (*root)->data.id)
+	else if (isPositive(strcmp(data.username, (*root)->data.username)))
 	{
 		insert_recursive(&(*root)->right, *root, data);
 	}
@@ -148,15 +148,15 @@ tree* search(tree* root, tree_type data)
 	if (!root)
 		return NULL;
 
-	if (data.id < root->data.id)
+	if (isNegative(strcmp(data.username, (root)->data.username)))
 	{
 		search(root->left, data);
 	}
-	else if (data.id > root->data.id)
+	else if (isPositive(strcmp(data.username, (root)->data.username)))
 	{
 		search(root->right, data);
 	}
-	else if (data.id == root->data.id)
+	else if (isZero(strcmp(data.username, (root)->data.username)))
 	{
 		return root;
 	}
