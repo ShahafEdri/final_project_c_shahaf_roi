@@ -20,12 +20,11 @@
 
 FILE* logFile;
 errno_t err;
-#define LOG(log_level, msg) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__)
-#define LOG_VAR(log_level, msg, var) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__, var)
-//use example --> LOG(WARNING, "message")
-//use example --> LOG(WARNING, "mesasge with var %d", var)
 
-void func() {}
+void func(tree *root) {
+	print(root->data.fullname);
+
+}
 
 
 
@@ -44,7 +43,11 @@ user user_validation(tree** root) {
 	return user_var;
 }
 
-void view_func() {}
+void view_devices(tree *root) {
+	LOG(INFO, "printing the devices");
+	print_inorder(root);
+
+}
 
 void load_file() {
 	FILE* fin = (FILE*)malloc(sizeof(FILE));
@@ -76,21 +79,21 @@ user create_admin() {
 	return admin_user;
 }
 
-void update_func() {}
+void update_device() {}
 
-void add_func() {}
+void add_device() {}
 
-void search_func() {}
+void search_device() {}
 
-void delete_func() {}
+void delete_device() {}
 
-void staff_view_func() {}
+void staff_view() {}
 
-void staff_addition_func() {}
+void staff_addition() {}
 
-void staff_update_func() {}
+void staff_update() {}
 
-void staff_deletion_func() {}
+void staff_deletion() {}
 
 void main() {
 
@@ -110,6 +113,7 @@ void main() {
 		//fprintf();
 	}
 	//put in your username and password
+	func();
 	user usr_var = user_validation(&root);
 	while (true)
 	{
@@ -138,31 +142,32 @@ void main() {
 		switch (action)
 		{
 		case(VIEW): // view - 1
-			view_func();
+			LOG_VAR(INFO, "user %s chose function - view", usr_var.fullname);
+			//view_devices();
 			break;
 		case(SEARCH): // search - 2
-			search_func();
+			search_device();
 			break;
 		case(ADD): // add - 3
-			add_func();
+			add_device();
 			break;
 		case(UPDATE): // update - 4
-			update_func();
+			update_device();
 			break;
 		case(DELETE): // delete - 5
-			delete_func();
+			delete_device();
 			break;
 		case(STAFF_VIEW): // staff-view - 6
-			staff_view_func();
+			staff_view();
 			break;
 		case(STAFF_ADDITION): // staff-addition - 7
-			staff_addition_func();
+			staff_addition();
 			break;
 		case(STAFF_UPDATE): // staff-update - 8
-			staff_update_func();
+			staff_update();
 			break;
 		case(STAFF_DELETION): // staff-deletion - 9
-			staff_deletion_func();
+			staff_deletion();
 			break;
 		}
 	}
