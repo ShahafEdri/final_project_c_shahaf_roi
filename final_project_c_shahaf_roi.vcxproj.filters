@@ -21,12 +21,18 @@
     <ClCompile Include="binary_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="employees_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="binary_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="log_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
