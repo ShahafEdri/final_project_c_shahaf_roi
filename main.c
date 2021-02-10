@@ -35,15 +35,14 @@ bool check_if_there_are_files() {
 }
 
 user user_validation(userTree** root) {
-	// input username
+	//input username
 	char userName[TEXT_LEN] = "";
 	fgets(userName, TEXT_LEN, stdin);
-	// check if username exist in users-BS-Tree
+	//check if username exist in users-BS-Tree
 	user user_var = { .username = userName };
 	userTree* userNode = user_search(*root, user_var);
-	//userTree user = user_search(*root, );
-	// input password
-	// check if password correct
+	//input password
+	//check if password correct
 	//user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
 	return user_var;
 }
