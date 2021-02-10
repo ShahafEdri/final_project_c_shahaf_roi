@@ -24,6 +24,9 @@
     <ClCompile Include="device_binary_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="employees_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -35,6 +38,9 @@
     <ClInclude Include="device_binary_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="log_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="biographi.txt">
@@ -43,5 +49,10 @@
     <Text Include="log_file.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="worker.dat">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

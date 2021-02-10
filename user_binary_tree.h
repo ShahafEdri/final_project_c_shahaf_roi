@@ -25,7 +25,12 @@
 
 #define COUNT 10
 
-typedef user user_tree_type;
+#define isNegative(X) 0 > X
+#define isPositive(X) 0 < X
+#define isZero(X) 0 == X
+
+
+typedef user tree_type;
 
 typedef struct userTree {
 	user_tree_type data;

@@ -77,7 +77,6 @@ void end_func() {
 
 user create_admin() {
 	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" ,.id = 123456789 };
-
 	return admin_user;
 }
 
@@ -140,7 +139,7 @@ void main() {
 		if (action != usr_var.level)
 			//print error msg
 			continue;
-
+		//test
 
 		switch (action)
 		{
