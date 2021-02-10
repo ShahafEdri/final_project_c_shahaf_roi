@@ -145,24 +145,23 @@ void main() {
 
 		switch (action)
 		{
-		case(VIEW): // view - 1
-			LOG_VAR(INFO, "user %s chose function - view", usr_var.fullname);
-			//view_devices();
+		case(VIEW): // view - complete
+			view_device();
 			break;
-		case(SEARCH): // search - 2
+		case(SEARCH): // search - 2 -- complete
 			search_device();
 			break;
-		case(ADD): // add - 3
+		case(ADD): // add - 3 complete
 			add_device();
 			break;
-		case(UPDATE): // update - 4
+		case(UPDATE): // update - 4 -- complete
 			update_device();
 			break;
-		case(DELETE): // delete - 5
+		case(DELETE): // delete - 5 --complete
 			delete_device();
 			break;
-		case(STAFF_VIEW): // staff-view - 6
-			staff_view();
+		case(STAFF_VIEW): // staff-view - 6 -- 
+			staff_view_func();
 			break;
 		case(STAFF_ADDITION): // staff-addition - 7
 			staff_addition();
