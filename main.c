@@ -16,16 +16,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Header.h"
-#include "binary_tree.h"
+#include "device_binary_tree.h"
+#include "user_binary_tree.h"
+
 
 FILE* logFile;
 errno_t err;
-#define LOG(log_level, msg) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__)
-#define LOG_VAR(log_level, msg, var) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__, var)
-//use example --> LOG(WARNING, "message")
-//use example --> LOG(WARNING, "mesasge with var %d", var)
 
-void func() {}
+void func(userTree* root) {
+	user_print_tree(root, 10);
+}
 
 
 
@@ -34,17 +34,25 @@ bool check_if_there_are_files() {
 	return bvar;
 }
 
-user user_validation(tree** root) {
+user user_validation(userTree** root) {
 	// input username
-
+	char userName[TEXT_LEN] = "";
+	fgets(userName, TEXT_LEN, stdin);
 	// check if username exist in users-BS-Tree
+	user user_var = { .username = userName };
+	userTree* userNode = user_search(*root, user_var);
+	//userTree user = user_search(*root, );
 	// input password
 	// check if password correct
-	user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
+	//user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
 	return user_var;
 }
 
-void view_func() {}
+void view_devices(deviceTree* root) {
+	LOG(INFO, "printing the devices");
+	user_print_inorder(root);
+
+}
 
 void load_file() {
 	FILE* fin = (FILE*)malloc(sizeof(FILE));
@@ -71,30 +79,31 @@ void end_func() {
 }
 
 user create_admin() {
-	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" ,.id = 123456789 };
+	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" };
 	return admin_user;
 }
 
-void update_func() {}
+void update_device() {}
 
-void add_func() {}
+void add_device() {}
 
-void search_func() {}
+void search_device() {}
 
-void delete_func() {}
+void delete_device() {}
 
-void staff_view_func() {}
+void staff_view() {}
 
-void staff_addition_func() {}
+void staff_addition() {}
 
-void staff_update_func() {}
+void staff_update() {}
 
-void staff_deletion_func() {}
+void staff_deletion() {}
 
 void main() {
 
 	init_func();
-	tree* root = NULL;
+	userTree* userRoot = NULL;
+	deviceTree* deviceRoot = NULL;
 	//load the project files
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
@@ -102,14 +111,15 @@ void main() {
 		printf("File could not be found OR file is empty\n");
 		printf("opening new file\n");
 		user admin_user = create_admin();
-		insert_iterative(&root, admin_user);
+		user_insert_iterative(&userRoot, admin_user);
 	}
 	else { // file exist
 		//load_file
 		//fprintf();
 	}
 	//put in your username and password
-	user usr_var = user_validation(&root);
+	//func();
+	user usr_var = user_validation(&userRoot);
 	while (true)
 	{
 		if (usr_var.level = 1) //permissions - view, search, add
@@ -155,13 +165,13 @@ void main() {
 			staff_view_func();
 			break;
 		case(STAFF_ADDITION): // staff-addition - 7
-			staff_addition_func();
+			staff_addition();
 			break;
 		case(STAFF_UPDATE): // staff-update - 8
-			staff_update_func();
+			staff_update();
 			break;
 		case(STAFF_DELETION): // staff-deletion - 9
-			staff_deletion_func();
+			staff_deletion();
 			break;
 		}
 	}

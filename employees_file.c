@@ -1,4 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include<stdio.h>
+
 void create_employees_file()
 {
 	FILE* fp = NULL;
