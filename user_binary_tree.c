@@ -22,12 +22,12 @@
 #include<stdio.h>
 #include <string.h>
 #include "Header.h"
-#include "binary_tree.h"
+#include "user_binary_tree.h"
 
 /*create a new node*/
-tree* create_node(tree* parent, tree_type data)
+userTree* user_create_node(userTree* parent, user_tree_type data)
 {
-	tree* node = (tree*)malloc(sizeof(tree));
+	userTree* node = (userTree*)malloc(sizeof(userTree));
 	if (!node)
 	{
 		printf("Not enough system memory is available for allocation!\n");
@@ -40,16 +40,16 @@ tree* create_node(tree* parent, tree_type data)
 }
 
 /*insert a new node into the BST using iterative method*/
-void insert_iterative(tree** root, tree_type data)
+void user_insert_iterative(userTree** root, user_tree_type data)
 {
 	//int data = user_data.id;
 	if (!(*root))
 	{
-		*root = create_node(NULL, data);
+		*root = user_create_node(NULL, data);
 	}
 	else
 	{
-		tree* cursor = *root;
+		userTree* cursor = *root;
 
 		while (1)
 		{
@@ -59,7 +59,7 @@ void insert_iterative(tree** root, tree_type data)
 					cursor = cursor->left;
 				else
 				{
-					cursor->left = create_node(cursor, data);
+					cursor->left = user_create_node(cursor, data);
 					return;
 				}
 			}
@@ -69,7 +69,7 @@ void insert_iterative(tree** root, tree_type data)
 					cursor = cursor->right;
 				else
 				{
-					cursor->right = create_node(cursor, data);
+					cursor->right = user_create_node(cursor, data);
 					return;
 				}
 			}
@@ -82,79 +82,79 @@ void insert_iterative(tree** root, tree_type data)
 }
 
 /*insert a new node into the BST using recursive method*/
-void insert_recursive(tree** root, tree* parent, tree_type data)
+void user_insert_recursive(userTree** root, userTree* parent, user_tree_type data)
 {
 	if (!(*root))
 	{
-		tree* temp = create_node(parent, data);
+		userTree* temp = user_create_node(parent, data);
 		*root = temp;
 		return;
 	}
 
 	if (isNegative(strcmp(data.username, (*root)->data.username)))
 	{
-		insert_recursive(&(*root)->left, *root, data);
+		user_insert_recursive(&(*root)->left, *root, data);
 	}
 	else if (isPositive(strcmp(data.username, (*root)->data.username)))
 	{
-		insert_recursive(&(*root)->right, *root, data);
+		user_insert_recursive(&(*root)->right, *root, data);
 	}
 }
 
-void print_preorder(tree* root)
+void user_print_preorder(userTree* root)
 {
 	if (root)
 	{
-		printf("%d ", root->data);
-		print_preorder(root->left);
-		print_preorder(root->right);
+		printf("%s ", root->data.username);
+		user_print_preorder(root->left);
+		user_print_preorder(root->right);
 	}
 
 }
 
-void print_inorder(tree* root)
+void user_print_inorder(userTree* root)
 {
 	if (root)
 	{
-		print_inorder(root->left);
-		printf("%d ", root->data);
-		print_inorder(root->right);
+		user_print_inorder(root->left);
+		printf("%s ", root->data.username);
+		user_print_inorder(root->right);
 	}
 }
 
-void print_postorder(tree* root)
+void user_print_postorder(userTree* root)
 {
 	if (root)
 	{
-		print_postorder(root->left);
-		print_postorder(root->right);
-		printf("%d ", root->data);
+		user_print_postorder(root->left);
+		user_print_postorder(root->right);
+		printf("%s ", root->data.username);
 	}
 }
 
-void deltree(tree** root)
+void user_deltree(userTree** root)
 {
 	if (*root)
 	{
-		deltree(&((*root)->left));
-		deltree(&((*root)->right));
+		user_deltree(&((*root)->left));
+		user_deltree(&((*root)->right));
 		free(*root);
 		*root = NULL;
 	}
 }
 
-tree* search(tree* root, tree_type data)
+userTree* user_search(userTree* root, user_tree_type data)
 {
 	if (!root)
 		return NULL;
 
 	if (isNegative(strcmp(data.username, (root)->data.username)))
 	{
-		search(root->left, data);
+		user_search(root->left, data);
 	}
 	else if (isPositive(strcmp(data.username, (root)->data.username)))
 	{
-		search(root->right, data);
+		user_search(root->right, data);
 	}
 	else if (isZero(strcmp(data.username, (root)->data.username)))
 	{
@@ -162,7 +162,7 @@ tree* search(tree* root, tree_type data)
 	}
 }
 
-tree* min_value(tree* node, int* height)
+userTree* user_min_value(userTree* node, int* height)
 {
 	*height = 0;
 
@@ -176,7 +176,7 @@ tree* min_value(tree* node, int* height)
 	return node;
 }
 
-tree* max_value(tree* node, int* height)
+userTree* user_max_value(userTree* node, int* height)
 {
 	*height = 0;
 
@@ -191,34 +191,34 @@ tree* max_value(tree* node, int* height)
 }
 
 /*delete a node in the BST*/
-tree* delete_node(tree* root, tree_type data)
+userTree* user_delete_node(userTree* root, user_tree_type data)
 {
 	if (!root)
 		return NULL;
 
-	if (data.id < root->data.id)
-		root->left = delete_node(root->left, data);
-	else if (data.id > root->data.id)
-		root->right = delete_node(root->right, data);
+	if (isNegative(strcmp(data.username, (root)->data.username)))
+		root->left = user_delete_node(root->left, data);
+	else if (isPositive(strcmp(data.username, (root)->data.username)))
+		root->right = user_delete_node(root->right, data);
 	else
 	{
-		tree* cursor = NULL;
+		userTree* cursor = NULL;
 
 		if ((root->left) && (root->right)) //2 children
 		{
 			int left, right;
-			tree* parent = NULL;
-			tree* cursorLeft = min_value(root->right, &left);
-			tree* cursorRight = max_value(root->left, &right);
+			userTree* parent = NULL;
+			userTree* cursorLeft = user_min_value(root->right, &left);
+			userTree* cursorRight = user_max_value(root->left, &right);
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
 			root->data = cursor->data;
 
 			if (parent->left == cursor)
-				parent->left = delete_node(parent->left, cursor->data);
+				parent->left = user_delete_node(parent->left, cursor->data);
 			else
-				parent->right = delete_node(parent->right, cursor->data);
+				parent->right = user_delete_node(parent->right, cursor->data);
 		}
 		else
 		{
@@ -241,7 +241,7 @@ tree* delete_node(tree* root, tree_type data)
 
 // Function to print binary tree in 2D
 // It does reverse inorder
-void print_tree(tree* root, int space)
+void user_print_tree(userTree* root, int space)
 {
 	int i;
 
@@ -250,17 +250,17 @@ void print_tree(tree* root, int space)
 		return;
 
 	// Process right child first
-	print_tree(root->right, space + COUNT);
+	user_print_tree(root->right, space + COUNT);
 
 	// Print current node after space
 	// count
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%d\n", root->data);
+	printf("%d\n", root->data.username);
 
 	// Process left child
-	print_tree(root->left, space + COUNT);
+	user_print_tree(root->left, space + COUNT);
 }
 
 

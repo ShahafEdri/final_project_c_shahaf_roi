@@ -18,7 +18,10 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="binary_tree.c">
+    <ClCompile Include="user_binary_tree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="device_binary_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="employees_file.c">
@@ -26,10 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="binary_tree.h">
+    <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="user_binary_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="device_binary_tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="log_file.h">
