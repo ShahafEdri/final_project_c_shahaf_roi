@@ -1,34 +1,48 @@
 #include<stdio.h>
-#include "binary_tree.h"
-void view_device(struct node* device_root) // inorder
+#include "device_binary_tree.h"
+#include "user_binary_tree. h"
+
+void view_device(deviceTree *root)
 {
-    print_inorder(tree * device_root)
+    device_print_inorder(root)
 }
 
-struct node* add_device(struct node* device_root, device)
+struct deviceTree* add_device(deviceTree* root)
 {
-    insert_iterative(device_root,device)
-    return node;
+    deviceTree temp;
+    printf("Please enter the device details in the following order : SN  price  brand  company");
+    scanf_s("%d %d %d %d", &temp.data.sn,&temp.data.price,&temp.data.brand,&temp.data.company);
+    device_insert_iterative(root, temp.data.sn);
+    device_insert_iterative(root, temp.data.price);
+    device_insert_iterative(root, temp.data.company);
+    device_insert_iterative(root, temp.data.brand);
+    return deviceTree;
 }
 
-struct node* delete_device(struct node* device_root, int key)
+struct deviceTree* delete_device(deviceTree* root)
 {
-    delete_node(device_root, device)
+    deviceTree temp;
+    printf("Please enter the SN of the device you want to delete");
+    scanf_s("%d", &temp);
+    device_delete_node(device_root, temp)
 }
-struct node* update_device(struct node* device_root, device_root oldVal, device_root newVal)
+struct deviceTree* update_device(deviceTree* root)
 {
-    printf("please enter the serial number of the device you want to change");
-        scanf("%d", &OldVal);
+    deviceTree Oldval, Newval;
+    printf("please enter the SN of the device you want to change");
+        scanf("%d", &Oldval);
     //  First delete old key value 
-    root = delete_node(root, oldVal);
+    root = delete_node(root, Oldval);
+    printf("please enter the new SN of the new device");
+    scanf("%d", &Newval);
     // Then insert new key value 
-    root = insert_iterative(root, newVal);
+    root = insert_iterative(root, Newval);
     // Return new root 
     return root;
 }
 void search_device(tree *device_root, device)
 {
-    search(tree * device_root, device);
+    //TBD
 }
 void staff_view(struct node* staff_root)
 {
