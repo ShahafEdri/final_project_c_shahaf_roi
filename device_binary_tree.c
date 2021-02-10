@@ -22,12 +22,12 @@
 #include<stdio.h>
 #include <string.h>
 #include "Header.h"
-#include "binary_tree.h"
+#include "device_binary_tree.h"
 
 /*create a new node*/
-tree* create_node(tree* parent, tree_type data)
+deviceTree* device_create_node(deviceTree* parent, device_tree_type data)
 {
-	tree* node = (tree*)malloc(sizeof(tree));
+	deviceTree* node = (deviceTree*)malloc(sizeof(deviceTree));
 	if (!node)
 	{
 		printf("Not enough system memory is available for allocation!\n");
@@ -40,36 +40,36 @@ tree* create_node(tree* parent, tree_type data)
 }
 
 /*insert a new node into the BST using iterative method*/
-void insert_iterative(tree** root, tree_type data)
+void device_insert_iterative(deviceTree** root, device_tree_type data)
 {
 	//int data = user_data.id;
 	if (!(*root))
 	{
-		*root = create_node(NULL, data);
+		*root = device_create_node(NULL, data);
 	}
 	else
 	{
-		tree* cursor = *root;
+		deviceTree* cursor = *root;
 
 		while (1)
 		{
-			if (data.id < cursor->data.id)
+			if (data.sn < cursor->data.sn)
 			{
 				if (cursor->left)
 					cursor = cursor->left;
 				else
 				{
-					cursor->left = create_node(cursor, data);
+					cursor->left = device_create_node(cursor, data);
 					return;
 				}
 			}
-			else if (data.id > cursor->data.id)
+			else if (data.sn > cursor->data.sn)
 			{
 				if (cursor->right)
 					cursor = cursor->right;
 				else
 				{
-					cursor->right = create_node(cursor, data);
+					cursor->right = device_create_node(cursor, data);
 					return;
 				}
 			}
@@ -82,87 +82,87 @@ void insert_iterative(tree** root, tree_type data)
 }
 
 /*insert a new node into the BST using recursive method*/
-void insert_recursive(tree** root, tree* parent, tree_type data)
+void device_insert_recursive(deviceTree** root, deviceTree* parent, device_tree_type data)
 {
 	if (!(*root))
 	{
-		tree* temp = create_node(parent, data);
+		deviceTree* temp = device_create_node(parent, data);
 		*root = temp;
 		return;
 	}
 
-	if (data.id < (*root)->data.id)
+	if (data.sn < (*root)->data.sn)
 	{
-		insert_recursive(&(*root)->left, *root, data);
+		device_insert_recursive(&(*root)->left, *root, data);
 	}
-	else if (data.id > (*root)->data.id)
+	else if (data.sn > (*root)->data.sn)
 	{
-		insert_recursive(&(*root)->right, *root, data);
+		device_insert_recursive(&(*root)->right, *root, data);
 	}
 }
 
-void print_preorder(tree* root)
+void device_print_preorder(deviceTree* root)
 {
 	if (root)
 	{
 		printf("%d ", root->data);
-		print_preorder(root->left);
-		print_preorder(root->right);
+		device_print_preorder(root->left);
+		device_print_preorder(root->right);
 	}
 
 }
 
-void print_inorder(tree* root)
+void device_print_inorder(deviceTree* root)
 {
 	if (root)
 	{
-		print_inorder(root->left);
+		device_print_inorder(root->left);
 		printf("%d ", root->data);
-		print_inorder(root->right);
+		device_print_inorder(root->right);
 	}
 }
 
-void print_postorder(tree* root)
+void device_print_postorder(deviceTree* root)
 {
 	if (root)
 	{
-		print_postorder(root->left);
-		print_postorder(root->right);
+		device_print_postorder(root->left);
+		device_print_postorder(root->right);
 		printf("%d ", root->data);
 	}
 }
 
-void deltree(tree** root)
+void device_deltree(deviceTree** root)
 {
 	if (*root)
 	{
-		deltree(&((*root)->left));
-		deltree(&((*root)->right));
+		device_deltree(&((*root)->left));
+		device_deltree(&((*root)->right));
 		free(*root);
 		*root = NULL;
 	}
 }
 
-tree* search(tree* root, tree_type data)
+deviceTree* device_search(deviceTree* root, device_tree_type data)
 {
 	if (!root)
 		return NULL;
 
-	if (data.id < root->data.id)
+	if (data.sn < root->data.sn)
 	{
-		search(root->left, data);
+		device_search(root->left, data);
 	}
-	else if (data.id > root->data.id)
+	else if (data.sn > root->data.sn)
 	{
-		search(root->right, data);
+		device_search(root->right, data);
 	}
-	else if (data.id == root->data.id)
+	else if (data.sn == root->data.sn)
 	{
 		return root;
 	}
 }
 
-tree* min_value(tree* node, int* height)
+deviceTree* device_min_value(deviceTree* node, int* height)
 {
 	*height = 0;
 
@@ -176,7 +176,7 @@ tree* min_value(tree* node, int* height)
 	return node;
 }
 
-tree* max_value(tree* node, int* height)
+deviceTree* max_value(deviceTree* node, int* height)
 {
 	*height = 0;
 
@@ -191,34 +191,34 @@ tree* max_value(tree* node, int* height)
 }
 
 /*delete a node in the BST*/
-tree* delete_node(tree* root, tree_type data)
+deviceTree* device_delete_node(deviceTree* root, device_tree_type data)
 {
 	if (!root)
 		return NULL;
 
-	if (data.id < root->data.id)
-		root->left = delete_node(root->left, data);
-	else if (data.id > root->data.id)
-		root->right = delete_node(root->right, data);
+	if (data.sn < root->data.sn)
+		root->left = device_delete_node(root->left, data);
+	else if (data.sn > root->data.sn)
+		root->right = device_delete_node(root->right, data);
 	else
 	{
-		tree* cursor = NULL;
+		deviceTree* cursor = NULL;
 
 		if ((root->left) && (root->right)) //2 children
 		{
 			int left, right;
-			tree* parent = NULL;
-			tree* cursorLeft = min_value(root->right, &left);
-			tree* cursorRight = max_value(root->left, &right);
+			deviceTree* parent = NULL;
+			deviceTree* cursorLeft = device_min_value(root->right, &left);
+			deviceTree* cursorRight = max_value(root->left, &right);
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
 			root->data = cursor->data;
 
 			if (parent->left == cursor)
-				parent->left = delete_node(parent->left, cursor->data);
+				parent->left = device_delete_node(parent->left, cursor->data);
 			else
-				parent->right = delete_node(parent->right, cursor->data);
+				parent->right = device_delete_node(parent->right, cursor->data);
 		}
 		else
 		{
@@ -241,7 +241,7 @@ tree* delete_node(tree* root, tree_type data)
 
 // Function to print binary tree in 2D
 // It does reverse inorder
-void print_tree(tree* root, int space)
+void device_print_tree(deviceTree* root, int space)
 {
 	int i;
 
@@ -250,7 +250,7 @@ void print_tree(tree* root, int space)
 		return;
 
 	// Process right child first
-	print_tree(root->right, space + COUNT);
+	device_print_tree(root->right, space + COUNT);
 
 	// Print current node after space
 	// count
@@ -260,7 +260,7 @@ void print_tree(tree* root, int space)
 	printf("%d\n", root->data);
 
 	// Process left child
-	print_tree(root->left, space + COUNT);
+	device_print_tree(root->left, space + COUNT);
 }
 
 

@@ -16,12 +16,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Header.h"
-#include "binary_tree.h"
+#include "device_binary_tree.h"
+#include "user_binary_tree.h"
+
 
 FILE* logFile;
 errno_t err;
 
-void func(tree *root) {
+void func(userTree *root) {
 	print(root->data.fullname);
 
 }
@@ -33,7 +35,7 @@ bool check_if_there_are_files() {
 	return bvar;
 }
 
-user user_validation(tree** root) {
+user user_validation(userTree** root) {
 	// input username
 
 	// check if username exist in users-BS-Tree
@@ -43,9 +45,9 @@ user user_validation(tree** root) {
 	return user_var;
 }
 
-void view_devices(tree *root) {
+void view_devices(deviceTree *root) {
 	LOG(INFO, "printing the devices");
-	print_inorder(root);
+	user_print_inorder(root);
 
 }
 
@@ -98,7 +100,8 @@ void staff_deletion() {}
 void main() {
 
 	init_func();
-	tree* root = NULL;
+	userTree* userRoot = NULL;
+	deviceTree* deviceRoot = NULL;
 	//load the project files
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
@@ -106,15 +109,15 @@ void main() {
 		printf("File could not be found OR file is empty\n");
 		printf("opening new file\n");
 		user admin_user = create_admin();
-		insert_iterative(&root, admin_user);
+		insert_iterative(&userRoot, admin_user);
 	}
 	else { // file exist
 		//load_file
 		//fprintf();
 	}
 	//put in your username and password
-	func();
-	user usr_var = user_validation(&root);
+	//func();
+	user usr_var = user_validation(&userRoot);
 	while (true)
 	{
 		if (usr_var.level = 1) //permissions - view, search, add
