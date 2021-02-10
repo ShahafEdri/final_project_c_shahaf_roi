@@ -22,8 +22,8 @@ typedef struct user
 typedef struct device
 {
 	int sn[TEXT_LEN];
-	char txt[TEXT_LEN];
-	char txt1[TEXT_LEN];
+	char brand[TEXT_LEN];
+	char company[TEXT_LEN];
 	float price;
 	bool stock;
 	char date[TEXT_LEN];
