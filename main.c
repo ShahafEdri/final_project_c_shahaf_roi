@@ -8,13 +8,19 @@
 #define STAFF_UPDATE 8
 #define STAFF_DELETION 9
 
-#define SIMPLE_MENU "1-view\n2-search\n3-add\n"
-#define EMPLOYEE_MENU "1-view\n2-search\n3-add\n4-update\n5-delete\n"
-#define MANAGER_MENU "1-view\n2-search\n3-add\n4-update\n5-delete\n6-staff-view\n7-staff-addition\n8-staff-update\n9-staff-deletion\n"
+#define SIMPLE_MENU " 1-view\n 2-search\n\n"
+#define HAS_PERMISSION_FOR_ACTION_SIMPLE(X) ((X) > 0 && (X) < 3)
+#define EMPLOYEE_MENU " 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n\n"
+#define HAS_PERMISSION_FOR_ACTION_EMPLOYEE(X) ((X) > 0 && (X) < 6)
+#define MANAGER_MENU " 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n 6-staff-view\n 7-staff-addition\n 8-staff-update\n 9-staff-deletion\n\n"
+#define HAS_PERMISSION_FOR_ACTION_MANAGER(X) ((X) > 0 && (X) < 10)
+
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "Header.h"
 #include "device_binary_tree.h"
 #include "user_binary_tree.h"
@@ -36,15 +42,41 @@ bool check_if_there_are_files() {
 
 user user_validation(userTree** root) {
 	//input username
-	char userName[TEXT_LEN] = "";
-	fgets(userName, TEXT_LEN, stdin);
+	printf("enter your username --> ");
+	//user user_var; // TODO uncomment
+	user user_var = { .username = "admin" }; // TODO remove
+	//scanf("%s", user_var.username); //TODO uncomment
 	//check if username exist in users-BS-Tree
-	user user_var = { .username = userName };
 	userTree* userNode = user_search(*root, user_var);
+	if (userNode != NULL) {
+		LOG_VAR(info, "user %s found in database", user_var.username);
+		user_var = userNode->data;
+	}
+	else {
+		printf("tried to enter a worng username-- > % s", user_var.username);
+		LOG_VAR(info, "tried to enter a worng username --> %s ", user_var.username);
+	}
 	//input password
-	//check if password correct
-	//user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
-	return user_var;
+	printf("enter your password --> ");
+	char userPassword[TEXT_LEN] = "admin";
+	int tries = 0;
+	for (tries = 0; tries < 3; tries++) {
+		//scanf("%s", userPassword);
+		//check if password correct
+		if (!strcmp(userPassword, user_var.password)) {
+			printf("successful login");
+			LOG_VAR(info, "user %s has made a successful login", user_var.username);
+			return user_var;
+		}
+		else {
+			printf("wrong password entered");
+			LOG_VAR(info, "user %s has entered a wrong password", user_var.username);
+		}
+		printf("try again (%d)", (tries + 1));
+	}
+	printf("exiting program, tried maximum tries (%d)", tries);
+	LOG_VAR(ERROR, "user %s has entered a wrong password TOO MANY TIMES", user_var.username);
+	exit(1);
 }
 
 void view_devices(deviceTree* root) {
@@ -106,47 +138,56 @@ void main() {
 	//load the project files
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
-	if (fopen_s(wfPtr, "worker.dat", "a") || feof(wfPtr)) { // try to open file
+	if (fopen_s(wfPtr, "worker.dat", "a") || !(feof(wfPtr))) { // try to open file
 		printf("File could not be found OR file is empty\n");
-		printf("opening new file\n");
 		user admin_user = create_admin();
 		user_insert_iterative(&userRoot, admin_user);
 	}
 	else { // file exist
 		//load_file
-		//fprintf();
+		printf("ERROR!!!");
 	}
 	//put in your username and password
 	//func();
-	user usr_var = user_validation(&userRoot);
+	user user_var = user_validation(&userRoot);
 	while (true)
 	{
-		if (usr_var.level = 1) //permissions - view, search, add
+		printf("\n\nMENU:\n");
+		if (user_var.level == 1) //permissions - view, search, add
 		{
 			// print level 1 menu
 			printf(SIMPLE_MENU);
-			LOG(INFO, "user added a");
 		}
-		else if (usr_var.level = 2) //permissions - view, search, add, update, delete
+		else if (user_var.level == 2) //permissions - view, search, add, update, delete
 		{
 			// print level 2 menu
 			printf(EMPLOYEE_MENU);
 		}
-		else if (usr_var.level = 3) //permissions - view, search, add, update, delete, staff-view, staff-addition, staff-update, staff-deletion
+		else if (user_var.level == 3) //permissions - view, search, add, update, delete, staff-view, staff-addition, staff-update, staff-deletion
 		{
 			// print level 3 menu
 			printf(MANAGER_MENU);
 		}
-		int action = scanf_s("%d");
-		if (action != usr_var.level)
-			//print error msg
-			continue;
-		//test
+
+		printf("what action would you want to make? (by number) --> ");
+		int action = 0;
+		while (true) {
+			scanf_s("%d", &action);
+			if (((user_var.level == 1 && HAS_PERMISSION_FOR_ACTION_SIMPLE(action)) ||
+				(user_var.level == 2 && HAS_PERMISSION_FOR_ACTION_EMPLOYEE(action)) ||
+				(user_var.level == 3 && HAS_PERMISSION_FOR_ACTION_MANAGER(action))))
+			{
+				break;
+			}
+			printf("entered a wrong number, please choose again --> ");
+		}
 
 		switch (action)
 		{
+			LOG_VAR(DEBUG, "executing action numebr %d", action);
+
 		case(VIEW): // view - 1
-			LOG_VAR(INFO, "user %s chose function - view", usr_var.fullname);
+			LOG_VAR(INFO, "user %s chose function - view", user_var.fullname);
 			//view_devices();
 			break;
 		case(SEARCH): // search - 2
