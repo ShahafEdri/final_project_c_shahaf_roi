@@ -23,9 +23,8 @@
 FILE* logFile;
 errno_t err;
 
-void func(userTree *root) {
-	print(root->data.fullname);
-
+void func(userTree* root) {
+	user_print_tree(root, 10);
 }
 
 
@@ -37,15 +36,19 @@ bool check_if_there_are_files() {
 
 user user_validation(userTree** root) {
 	// input username
-
+	char userName[TEXT_LEN] = "";
+	fgets(userName, TEXT_LEN, stdin);
 	// check if username exist in users-BS-Tree
+	user user_var = { .username = userName };
+	userTree* userNode = user_search(*root, user_var);
+	//userTree user = user_search(*root, );
 	// input password
 	// check if password correct
-	user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
+	//user user_var = { .fullname = "Shahaf Edri", .level = 3, .password = "12345678", .username = "shahafe" };
 	return user_var;
 }
 
-void view_devices(deviceTree *root) {
+void view_devices(deviceTree* root) {
 	LOG(INFO, "printing the devices");
 	user_print_inorder(root);
 
@@ -76,7 +79,7 @@ void end_func() {
 }
 
 user create_admin() {
-	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" ,.id = 123456789 };
+	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" };
 	return admin_user;
 }
 
@@ -108,7 +111,7 @@ void main() {
 		printf("File could not be found OR file is empty\n");
 		printf("opening new file\n");
 		user admin_user = create_admin();
-		insert_iterative(&userRoot, admin_user);
+		user_insert_iterative(&userRoot, admin_user);
 	}
 	else { // file exist
 		//load_file

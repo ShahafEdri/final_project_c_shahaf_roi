@@ -105,7 +105,7 @@ void user_print_preorder(userTree* root)
 {
 	if (root)
 	{
-		printf("%d ", root->data);
+		printf("%s ", root->data.username);
 		user_print_preorder(root->left);
 		user_print_preorder(root->right);
 	}
@@ -117,7 +117,7 @@ void user_print_inorder(userTree* root)
 	if (root)
 	{
 		user_print_inorder(root->left);
-		printf("%d ", root->data);
+		printf("%s ", root->data.username);
 		user_print_inorder(root->right);
 	}
 }
@@ -128,7 +128,7 @@ void user_print_postorder(userTree* root)
 	{
 		user_print_postorder(root->left);
 		user_print_postorder(root->right);
-		printf("%d ", root->data);
+		printf("%s ", root->data.username);
 	}
 }
 
@@ -176,7 +176,7 @@ userTree* user_min_value(userTree* node, int* height)
 	return node;
 }
 
-userTree* max_value(userTree* node, int* height)
+userTree* user_max_value(userTree* node, int* height)
 {
 	*height = 0;
 
@@ -196,9 +196,9 @@ userTree* user_delete_node(userTree* root, user_tree_type data)
 	if (!root)
 		return NULL;
 
-	if (data.id < root->data.id)
+	if (isNegative(strcmp(data.username, (root)->data.username)))
 		root->left = user_delete_node(root->left, data);
-	else if (data.id > root->data.id)
+	else if (isPositive(strcmp(data.username, (root)->data.username)))
 		root->right = user_delete_node(root->right, data);
 	else
 	{
@@ -209,7 +209,7 @@ userTree* user_delete_node(userTree* root, user_tree_type data)
 			int left, right;
 			userTree* parent = NULL;
 			userTree* cursorLeft = user_min_value(root->right, &left);
-			userTree* cursorRight = max_value(root->left, &right);
+			userTree* cursorRight = user_max_value(root->left, &right);
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
@@ -257,7 +257,7 @@ void user_print_tree(userTree* root, int space)
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%d\n", root->data);
+	printf("%d\n", root->data.username);
 
 	// Process left child
 	user_print_tree(root->left, space + COUNT);

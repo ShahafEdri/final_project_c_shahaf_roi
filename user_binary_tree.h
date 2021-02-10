@@ -30,7 +30,7 @@
 #define isZero(X) 0 == X
 
 
-typedef user tree_type;
+typedef user user_tree_type;
 
 typedef struct userTree {
 	user_tree_type data;
@@ -59,6 +59,8 @@ void user_deltree(userTree** root);
 userTree* user_search(userTree* root, user_tree_type data);
 
 userTree* user_min_value(userTree* node, int* height);
+
+userTree* user_max_value(userTree* node, int* height);
 
 /*delete a node in the BST*/
 userTree* user_delete_node(userTree* root, user_tree_type data);

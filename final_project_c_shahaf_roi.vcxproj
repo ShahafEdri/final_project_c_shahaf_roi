@@ -146,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
-    <ClInclude Include="binary_tree.h" />
     <ClInclude Include="log_file.h" />
     <ClInclude Include="device_binary_tree.h" />
     <ClInclude Include="user_binary_tree.h" />

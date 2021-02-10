@@ -55,10 +55,11 @@ deviceTree* device_search(deviceTree* root, device_tree_type data);
 
 deviceTree* device_min_value(deviceTree* node, int* height);
 
+deviceTree* device_max_value(deviceTree* node, int* height);
+
 /*delete a node in the BST*/
 deviceTree* device_delete_node(deviceTree* root, device_tree_type data);
 
 // Function to print binary tree in 2D
 // It does reverse inorder
 void device_print_tree(deviceTree* root, int space);
-#pragma once

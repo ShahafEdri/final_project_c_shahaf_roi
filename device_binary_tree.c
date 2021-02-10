@@ -105,7 +105,7 @@ void device_print_preorder(deviceTree* root)
 {
 	if (root)
 	{
-		printf("%d ", root->data);
+		printf("%d ", root->data.sn);
 		device_print_preorder(root->left);
 		device_print_preorder(root->right);
 	}
@@ -117,7 +117,7 @@ void device_print_inorder(deviceTree* root)
 	if (root)
 	{
 		device_print_inorder(root->left);
-		printf("%d ", root->data);
+		printf("%d ", root->data.sn);
 		device_print_inorder(root->right);
 	}
 }
@@ -128,7 +128,7 @@ void device_print_postorder(deviceTree* root)
 	{
 		device_print_postorder(root->left);
 		device_print_postorder(root->right);
-		printf("%d ", root->data);
+		printf("%d ", root->data.sn);
 	}
 }
 
@@ -176,7 +176,7 @@ deviceTree* device_min_value(deviceTree* node, int* height)
 	return node;
 }
 
-deviceTree* max_value(deviceTree* node, int* height)
+deviceTree* device_max_value(deviceTree* node, int* height)
 {
 	*height = 0;
 
@@ -209,7 +209,7 @@ deviceTree* device_delete_node(deviceTree* root, device_tree_type data)
 			int left, right;
 			deviceTree* parent = NULL;
 			deviceTree* cursorLeft = device_min_value(root->right, &left);
-			deviceTree* cursorRight = max_value(root->left, &right);
+			deviceTree* cursorRight = device_max_value(root->left, &right);
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
