@@ -136,22 +136,22 @@ void main() {
 
 		switch (action)
 		{
-		case(VIEW): // view - 1
-			view_func();
+		case(VIEW): // view - complete
+			view_device();
 			break;
-		case(SEARCH): // search - 2
-			search_func();
+		case(SEARCH): // search - 2 -- complete
+			search_device();
 			break;
-		case(ADD): // add - 3
-			add_func();
+		case(ADD): // add - 3 complete
+			add_device();
 			break;
-		case(UPDATE): // update - 4
-			update_func();
+		case(UPDATE): // update - 4 -- complete
+			update_device();
 			break;
-		case(DELETE): // delete - 5
-			delete_func();
+		case(DELETE): // delete - 5 --complete
+			delete_device();
 			break;
-		case(STAFF_VIEW): // staff-view - 6
+		case(STAFF_VIEW): // staff-view - 6 -- 
 			staff_view_func();
 			break;
 		case(STAFF_ADDITION): // staff-addition - 7
