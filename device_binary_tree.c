@@ -25,7 +25,7 @@
 #include "device_binary_tree.h"
 
 /*create a new node*/
-deviceTree* device_create_node(deviceTree* parent, device_tree_type data)
+deviceTree* device_create_node(deviceTree* parent, device data)
 {
 	deviceTree* node = (deviceTree*)malloc(sizeof(deviceTree));
 	if (!node)
@@ -40,7 +40,7 @@ deviceTree* device_create_node(deviceTree* parent, device_tree_type data)
 }
 
 /*insert a new node into the BST using iterative method*/
-void device_insert_iterative(deviceTree** root, device_tree_type data)
+void device_insert_iterative(deviceTree** root, device data)
 {
 	//int data = user_data.id;
 	if (!(*root))
@@ -82,7 +82,7 @@ void device_insert_iterative(deviceTree** root, device_tree_type data)
 }
 
 /*insert a new node into the BST using recursive method*/
-void device_insert_recursive(deviceTree** root, deviceTree* parent, device_tree_type data)
+void device_insert_recursive(deviceTree** root, deviceTree* parent, device data)
 {
 	if (!(*root))
 	{
@@ -143,7 +143,7 @@ void device_deltree(deviceTree** root)
 	}
 }
 
-deviceTree* device_search(deviceTree* root, device_tree_type data)
+deviceTree* device_search(deviceTree* root, device data)
 {
 	if (!root)
 		return NULL;
@@ -191,7 +191,7 @@ deviceTree* device_max_value(deviceTree* node, int* height)
 }
 
 /*delete a node in the BST*/
-deviceTree* device_delete_node(deviceTree* root, device_tree_type data)
+deviceTree* device_delete_node(deviceTree* root, device data)
 {
 	if (!root)
 		return NULL;
@@ -263,6 +263,15 @@ void device_print_tree(deviceTree* root, int space)
 	device_print_tree(root->left, space + COUNT);
 }
 
+void device_save_tree_to_file(deviceTree* root, FILE* ifPtr) {
+	if (root) {
+		device_save_tree_to_file(root->left, ifPtr);
+		fwrite(&root->data, sizeof(struct device), 1, ifPtr);
+		LOG_VAR(DEBUG, "worker %d saved to items file", root->data.sn);
+		printf("worker '%d' has been SAVED to items-file", root->data.sn);
+		device_save_tree_to_file(root->right, ifPtr);
+	}
+}
 
 //void main()
 //{

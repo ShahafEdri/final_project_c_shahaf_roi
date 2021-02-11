@@ -25,7 +25,7 @@
 #include "user_binary_tree.h"
 
 /*create a new node*/
-userTree* user_create_node(userTree* parent, user_tree_type data)
+userTree* user_create_node(userTree* parent, user data)
 {
 	userTree* node = (userTree*)malloc(sizeof(userTree));
 	if (!node)
@@ -40,7 +40,7 @@ userTree* user_create_node(userTree* parent, user_tree_type data)
 }
 
 /*insert a new node into the BST using iterative method*/
-void user_insert_iterative(userTree** root, user_tree_type data)
+void user_insert_iterative(userTree** root, user data)
 {
 	//int data = user_data.id;
 	if (!(*root))
@@ -82,7 +82,7 @@ void user_insert_iterative(userTree** root, user_tree_type data)
 }
 
 /*insert a new node into the BST using recursive method*/
-void user_insert_recursive(userTree** root, userTree* parent, user_tree_type data)
+void user_insert_recursive(userTree** root, userTree* parent, user data)
 {
 	if (!(*root))
 	{
@@ -143,7 +143,7 @@ void user_deltree(userTree** root)
 	}
 }
 
-userTree* user_search(userTree* root, user_tree_type data)
+userTree* user_search(userTree* root, user data)
 {
 	if (!root)
 		return NULL;
@@ -191,7 +191,7 @@ userTree* user_max_value(userTree* node, int* height)
 }
 
 /*delete a node in the BST*/
-userTree* user_delete_node(userTree* root, user_tree_type data)
+userTree* user_delete_node(userTree* root, user data)
 {
 	if (!root)
 		return NULL;
@@ -257,10 +257,20 @@ void user_print_tree(userTree* root, int space)
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%d\n", root->data.username);
+	printf("%s\n", root->data.username);
 
 	// Process left child
 	user_print_tree(root->left, space + COUNT);
+}
+
+void user_save_tree_to_file(userTree* root, FILE* wfPtr) {
+	if (root) {
+		user_save_tree_to_file(root->left, wfPtr);
+		fwrite(&root->data, sizeof(struct user), 1, wfPtr);
+		LOG_VAR(DEBUG, "worker %s saved to workers file", root->data.username);
+		printf("worker '%s' has been SAVED to workers-file", root->data.username);
+		user_save_tree_to_file(root->right, wfPtr);
+	}
 }
 
 

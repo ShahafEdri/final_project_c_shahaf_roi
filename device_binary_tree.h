@@ -25,23 +25,21 @@
 
 #define COUNT 10
 
-typedef device device_tree_type;
-
 typedef struct deviceTree {
-	device_tree_type data;
+	device data;
 	struct deviceTree* right, * left, * parent;
 }deviceTree;
 
 //typedef tree deviceTree;
 
 /*create a new node*/
-deviceTree* device_create_node(deviceTree* parent, device_tree_type data);
+deviceTree* device_create_node(deviceTree* parent, device data);
 
 /*insert a new node into the BST using iterative method*/
-void device_insert_iterative(deviceTree** root, device_tree_type data);
+void device_insert_iterative(deviceTree** root, device data);
 
 /*insert a new node into the BST using recursive method*/
-void device_insert_recursive(deviceTree** root, deviceTree* parent, device_tree_type data);
+void device_insert_recursive(deviceTree** root, deviceTree* parent, device data);
 
 void device_print_preorder(deviceTree* root);
 
@@ -51,15 +49,17 @@ void device_print_postorder(deviceTree* root);
 
 void device_deltree(deviceTree** root);
 
-deviceTree* device_search(deviceTree* root, device_tree_type data);
+deviceTree* device_search(deviceTree* root, device data);
 
 deviceTree* device_min_value(deviceTree* node, int* height);
 
 deviceTree* device_max_value(deviceTree* node, int* height);
 
 /*delete a node in the BST*/
-deviceTree* device_delete_node(deviceTree* root, device_tree_type data);
+deviceTree* device_delete_node(deviceTree* root, device data);
 
 // Function to print binary tree in 2D
 // It does reverse inorder
 void device_print_tree(deviceTree* root, int space);
+
+void device_save_tree_to_file(deviceTree* root, FILE* ifPtr);
