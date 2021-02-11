@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="employees_file.c" />
+    <ClCompile Include="files.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="device_binary_tree.c" />
     <ClCompile Include="user_binary_tree.c" />
@@ -155,7 +155,8 @@
     <Text Include="log_file.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="worker.dat" />
+    <None Include="items.bin" />
+    <None Include="workers.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

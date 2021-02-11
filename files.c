@@ -1,11 +1,13 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <ctype.h>
-#define _CRT_SECURE_NO_WARNINGS
 
 int countLines (char* filename);
 void letterFrequency (char* filename, int counts[]); 
 void removeSpaces (char* infile, char* outfile);
 void print_letter_frequency (int counts[]);
+//void print_the_file (int counts[]);
 
 //void main() 
 //{

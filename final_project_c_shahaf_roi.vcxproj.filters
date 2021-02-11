@@ -24,7 +24,7 @@
     <ClCompile Include="device_binary_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="employees_file.c">
+    <ClCompile Include="files.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,7 +51,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="worker.dat">
+    <None Include="workers.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="items.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

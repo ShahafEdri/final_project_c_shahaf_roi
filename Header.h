@@ -2,6 +2,11 @@
 
 #include <stdbool.h>
 
+#define ARG(...) int[]{__VA_ARGS__, 0}
+#define IARG(...) int[]{__VA_ARGS__, 0}
+#define CARG(...) char[]{__VA_ARGS__, 0}
+#define WRAPPER(CHARS, INTS) funct(CARG CHARS, IARG INTS)
+
 #define LOG(log_level, msg) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__)
 #define LOG_VAR(log_level, msg, var) fprintf (logFile, #log_level ":  Time:%s, File:%s(%d), Function:%s \n\t" #log_level " Message: " msg  "\n", __TIMESTAMP__, __FILE__, __LINE__, __FUNCTION__, var)
 //use example --> LOG(WARNING, "message")
@@ -21,12 +26,16 @@ typedef struct user
 
 typedef struct device
 {
-	int sn[TEXT_LEN];
+	int sn;
 	char brand[TEXT_LEN];
 	char company[TEXT_LEN];
 	float price;
 	bool stock;
 	char date[TEXT_LEN];
 }device;
+
+
+FILE* logFile;
+errno_t err;
 
 //void func(var);
