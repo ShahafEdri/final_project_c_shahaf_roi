@@ -266,5 +266,5 @@ void main() {
 		}
 	}
 
-	end_func(userRoot, wfPtr);
+	end_func(userRoot, deviceRoot, wfPtr, ifPtr);
 }
