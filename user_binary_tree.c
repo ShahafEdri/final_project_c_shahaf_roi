@@ -25,7 +25,7 @@
 #include "user_binary_tree.h"
 
 /*create a new node*/
-userTree* user_create_node(userTree* parent, user item)
+userTree* user_create_node(userTree* parent, user info)
 {
 	userTree* node = (userTree*)malloc(sizeof(userTree));
 	if (!node)
@@ -33,19 +33,19 @@ userTree* user_create_node(userTree* parent, user item)
 		printf("Not enough system memory is available for allocation!\n");
 		exit(1);
 	}
-	node->item = item;
+	node->info = info;
 	node->parent = parent;
 	node->left = node->right = NULL;
 	return node;
 }
 
 /*insert a new node into the BST using iterative method*/
-void user_insert_iterative(userTree** root, user item)
+void user_insert_iterative(userTree** root, user info)
 {
 	//int data = user_data.id;
 	if (!(*root))
 	{
-		*root = user_create_node(NULL, item);
+		*root = user_create_node(NULL, info);
 	}
 	else
 	{
@@ -53,23 +53,23 @@ void user_insert_iterative(userTree** root, user item)
 
 		while (1)
 		{
-			if (isNegative(strcmp(item.username, cursor->item.username)))
+			if (isNegative(strcmp(info.username, cursor->info.username)))
 			{
 				if (cursor->left)
 					cursor = cursor->left;
 				else
 				{
-					cursor->left = user_create_node(cursor, item);
+					cursor->left = user_create_node(cursor, info);
 					return;
 				}
 			}
-			else if (isNegative(strcmp(item.username, cursor->item.username)))
+			else if (isNegative(strcmp(info.username, cursor->info.username)))
 			{
 				if (cursor->right)
 					cursor = cursor->right;
 				else
 				{
-					cursor->right = user_create_node(cursor, item);
+					cursor->right = user_create_node(cursor, info);
 					return;
 				}
 			}
@@ -82,22 +82,22 @@ void user_insert_iterative(userTree** root, user item)
 }
 
 /*insert a new node into the BST using recursive method*/
-void user_insert_recursive(userTree** root, userTree* parent, user item)
+void user_insert_recursive(userTree** root, userTree* parent, user info)
 {
 	if (!(*root))
 	{
-		userTree* temp = user_create_node(parent, item);
+		userTree* temp = user_create_node(parent, info);
 		*root = temp;
 		return;
 	}
 
-	if (isNegative(strcmp(item.username, (*root)->item.username)))
+	if (isNegative(strcmp(info.username, (*root)->info.username)))
 	{
-		user_insert_recursive(&(*root)->left, *root, item);
+		user_insert_recursive(&(*root)->left, *root, info);
 	}
-	else if (isPositive(strcmp(item.username, (*root)->item.username)))
+	else if (isPositive(strcmp(info.username, (*root)->info.username)))
 	{
-		user_insert_recursive(&(*root)->right, *root, item);
+		user_insert_recursive(&(*root)->right, *root, info);
 	}
 }
 
@@ -105,7 +105,7 @@ void user_print_preorder(userTree* root)
 {
 	if (root)
 	{
-		printf("%s ", root->item.username);
+		printf("%s ", root->info.username);
 		user_print_preorder(root->left);
 		user_print_preorder(root->right);
 	}
@@ -117,7 +117,7 @@ void user_print_inorder(userTree* root)
 	if (root)
 	{
 		user_print_inorder(root->left);
-		printf("%s ", root->item.username);
+		printf("%s ", root->info.username);
 		user_print_inorder(root->right);
 	}
 }
@@ -128,7 +128,7 @@ void user_print_postorder(userTree* root)
 	{
 		user_print_postorder(root->left);
 		user_print_postorder(root->right);
-		printf("%s ", root->item.username);
+		printf("%s ", root->info.username);
 	}
 }
 
@@ -143,20 +143,20 @@ void user_deltree(userTree** root)
 	}
 }
 
-userTree* user_search(userTree* root, user item)
+userTree* user_search(userTree* root, user info)
 {
 	if (!root)
 		return NULL;
 
-	if (isNegative(strcmp(item.username, (root)->item.username)))
+	if (isNegative(strcmp(info.username, (root)->info.username)))
 	{
-		user_search(root->left, item);
+		user_search(root->left, info);
 	}
-	else if (isPositive(strcmp(item.username, (root)->item.username)))
+	else if (isPositive(strcmp(info.username, (root)->info.username)))
 	{
-		user_search(root->right, item);
+		user_search(root->right, info);
 	}
-	else if (isZero(strcmp(item.username, (root)->item.username)))
+	else if (isZero(strcmp(info.username, (root)->info.username)))
 	{
 		return root;
 	}
@@ -191,15 +191,15 @@ userTree* user_max_value(userTree* node, int* height)
 }
 
 /*delete a node in the BST*/
-userTree* user_delete_node(userTree* root, user item)
+userTree* user_delete_node(userTree* root, user info)
 {
 	if (!root)
 		return NULL;
 
-	if (isNegative(strcmp(item.username, (root)->item.username)))
-		root->left = user_delete_node(root->left, item);
-	else if (isPositive(strcmp(item.username, (root)->item.username)))
-		root->right = user_delete_node(root->right, item);
+	if (isNegative(strcmp(info.username, (root)->info.username)))
+		root->left = user_delete_node(root->left, info);
+	else if (isPositive(strcmp(info.username, (root)->info.username)))
+		root->right = user_delete_node(root->right, info);
 	else
 	{
 		userTree* cursor = NULL;
@@ -213,12 +213,12 @@ userTree* user_delete_node(userTree* root, user item)
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
-			root->item = cursor->item;
+			root->info = cursor->info;
 
 			if (parent->left == cursor)
-				parent->left = user_delete_node(parent->left, cursor->item);
+				parent->left = user_delete_node(parent->left, cursor->info);
 			else
-				parent->right = user_delete_node(parent->right, cursor->item);
+				parent->right = user_delete_node(parent->right, cursor->info);
 		}
 		else
 		{
@@ -257,7 +257,7 @@ void user_print_tree(userTree* root, int space)
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%s\n", root->item.username);
+	printf("%s\n", root->info.username);
 
 	// Process left child
 	user_print_tree(root->left, space + COUNT);
@@ -266,9 +266,9 @@ void user_print_tree(userTree* root, int space)
 void user_save_tree_to_file(userTree* root, FILE* wfPtr) {
 	if (root) {
 		user_save_tree_to_file(root->left, wfPtr);
-		fwrite(&root->item, sizeof(struct user), 1, wfPtr);
-		LOG_VAR(DEBUG, "worker %s saved to workers file", root->item.username);
-		printf("worker '%s' has been SAVED to workers-file", root->item.username);
+		fwrite(&root->info, sizeof(struct user), 1, wfPtr);
+		LOG_VAR(DEBUG, "worker %s saved to workers file", root->info.username);
+		printf("worker '%s' has been SAVED to workers-file", root->info.username);
 		user_save_tree_to_file(root->right, wfPtr);
 	}
 }

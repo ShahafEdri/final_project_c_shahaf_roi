@@ -57,7 +57,7 @@ user user_validation(userTree** root) {
 	userTree* userNode = user_search(*root, user_var);
 	if (userNode != NULL) {
 		LOG_VAR(info, "user %s found in database", user_var.username);
-		user_var = userNode->item;
+		user_var = userNode->info;
 	}
 	else {
 		printf("tried to enter a worng username-- > % s", user_var.username);
@@ -86,7 +86,7 @@ user user_validation(userTree** root) {
 	exit(1);
 }
 
-void view_devices(deviceTree* root) {
+void view_all_devices(deviceTree* root) {
 	LOG(INFO, "printing the devices");
 	device_print_inorder(root);
 
@@ -236,7 +236,7 @@ void main() {
 			break;
 		case(VIEW): // view - 1
 			LOG_VAR(INFO, "user %s chose function - view", user_var.fullname);
-			view_devices(deviceRoot);
+			view_all_devices(deviceRoot);
 			break;
 		case(SEARCH): // search - 2 -- complete
 			search_device();
