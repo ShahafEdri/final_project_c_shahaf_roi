@@ -31,20 +31,20 @@
 
 
 typedef struct userTree {
-	user data;
+	user item;
 	struct userTree* right, * left, * parent;
 }userTree;
 
 //typedef userTree userTree;
 
 /*create a new node*/
-userTree* user_create_node(userTree* parent, user data);
+userTree* user_create_node(userTree* parent, user item);
 
 /*insert a new node into the BST using iterative method*/
-void user_insert_iterative(userTree** root, user data);
+void user_insert_iterative(userTree** root, user item);
 
 /*insert a new node into the BST using recursive method*/
-void user_insert_recursive(userTree** root, userTree* parent, user data);
+void user_insert_recursive(userTree** root, userTree* parent, user item);
 
 void user_print_preorder(userTree* root);
 
@@ -54,14 +54,14 @@ void user_print_postorder(userTree* root);
 
 void user_deltree(userTree** root);
 
-userTree* user_search(userTree* root, user data);
+userTree* user_search(userTree* root, user item);
 
 userTree* user_min_value(userTree* node, int* height);
 
 userTree* user_max_value(userTree* node, int* height);
 
 /*delete a node in the BST*/
-userTree* user_delete_node(userTree* root, user data);
+userTree* user_delete_node(userTree* root, user item);
 
 // Function to print binary tree in 2D
 // It does reverse inorder

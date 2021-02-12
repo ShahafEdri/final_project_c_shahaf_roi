@@ -25,7 +25,7 @@
 #include "device_binary_tree.h"
 
 /*create a new node*/
-deviceTree* device_create_node(deviceTree* parent, device data)
+deviceTree* device_create_node(deviceTree* parent, device item)
 {
 	deviceTree* node = (deviceTree*)malloc(sizeof(deviceTree));
 	if (!node)
@@ -33,19 +33,19 @@ deviceTree* device_create_node(deviceTree* parent, device data)
 		printf("Not enough system memory is available for allocation!\n");
 		exit(1);
 	}
-	node->data = data;
+	node->item = item;
 	node->parent = parent;
 	node->left = node->right = NULL;
 	return node;
 }
 
 /*insert a new node into the BST using iterative method*/
-void device_insert_iterative(deviceTree** root, device data)
+void device_insert_iterative(deviceTree** root, device item)
 {
 	//int data = user_data.id;
 	if (!(*root))
 	{
-		*root = device_create_node(NULL, data);
+		*root = device_create_node(NULL, item);
 	}
 	else
 	{
@@ -53,23 +53,23 @@ void device_insert_iterative(deviceTree** root, device data)
 
 		while (1)
 		{
-			if (data.sn < cursor->data.sn)
+			if (item.sn < cursor->item.sn)
 			{
 				if (cursor->left)
 					cursor = cursor->left;
 				else
 				{
-					cursor->left = device_create_node(cursor, data);
+					cursor->left = device_create_node(cursor, item);
 					return;
 				}
 			}
-			else if (data.sn > cursor->data.sn)
+			else if (item.sn > cursor->item.sn)
 			{
 				if (cursor->right)
 					cursor = cursor->right;
 				else
 				{
-					cursor->right = device_create_node(cursor, data);
+					cursor->right = device_create_node(cursor, item);
 					return;
 				}
 			}
@@ -82,22 +82,22 @@ void device_insert_iterative(deviceTree** root, device data)
 }
 
 /*insert a new node into the BST using recursive method*/
-void device_insert_recursive(deviceTree** root, deviceTree* parent, device data)
+void device_insert_recursive(deviceTree** root, deviceTree* parent, device item)
 {
 	if (!(*root))
 	{
-		deviceTree* temp = device_create_node(parent, data);
+		deviceTree* temp = device_create_node(parent, item);
 		*root = temp;
 		return;
 	}
 
-	if (data.sn < (*root)->data.sn)
+	if (item.sn < (*root)->item.sn)
 	{
-		device_insert_recursive(&(*root)->left, *root, data);
+		device_insert_recursive(&(*root)->left, *root, item);
 	}
-	else if (data.sn > (*root)->data.sn)
+	else if (item.sn > (*root)->item.sn)
 	{
-		device_insert_recursive(&(*root)->right, *root, data);
+		device_insert_recursive(&(*root)->right, *root, item);
 	}
 }
 
@@ -105,7 +105,7 @@ void device_print_preorder(deviceTree* root)
 {
 	if (root)
 	{
-		printf("%d ", root->data.sn);
+		printf("%d ", root->item.sn);
 		device_print_preorder(root->left);
 		device_print_preorder(root->right);
 	}
@@ -117,7 +117,7 @@ void device_print_inorder(deviceTree* root)
 	if (root)
 	{
 		device_print_inorder(root->left);
-		printf("%d ", root->data.sn);
+		printf("%d ", root->item.sn);
 		device_print_inorder(root->right);
 	}
 }
@@ -128,7 +128,7 @@ void device_print_postorder(deviceTree* root)
 	{
 		device_print_postorder(root->left);
 		device_print_postorder(root->right);
-		printf("%d ", root->data.sn);
+		printf("%d ", root->item.sn);
 	}
 }
 
@@ -143,20 +143,20 @@ void device_deltree(deviceTree** root)
 	}
 }
 
-deviceTree* device_search(deviceTree* root, device data)
+deviceTree* device_search(deviceTree* root, device item)
 {
 	if (!root)
 		return NULL;
 
-	if (data.sn < root->data.sn)
+	if (item.sn < root->item.sn)
 	{
-		device_search(root->left, data);
+		device_search(root->left, item);
 	}
-	else if (data.sn > root->data.sn)
+	else if (item.sn > root->item.sn)
 	{
-		device_search(root->right, data);
+		device_search(root->right, item);
 	}
-	else if (data.sn == root->data.sn)
+	else if (item.sn == root->item.sn)
 	{
 		return root;
 	}
@@ -191,15 +191,15 @@ deviceTree* device_max_value(deviceTree* node, int* height)
 }
 
 /*delete a node in the BST*/
-deviceTree* device_delete_node(deviceTree* root, device data)
+deviceTree* device_delete_node(deviceTree* root, device item)
 {
 	if (!root)
 		return NULL;
 
-	if (data.sn < root->data.sn)
-		root->left = device_delete_node(root->left, data);
-	else if (data.sn > root->data.sn)
-		root->right = device_delete_node(root->right, data);
+	if (item.sn < root->item.sn)
+		root->left = device_delete_node(root->left, item);
+	else if (item.sn > root->item.sn)
+		root->right = device_delete_node(root->right, item);
 	else
 	{
 		deviceTree* cursor = NULL;
@@ -213,12 +213,12 @@ deviceTree* device_delete_node(deviceTree* root, device data)
 
 			cursor = (left > right) ? cursorLeft : cursorRight;
 			parent = cursor->parent;
-			root->data = cursor->data;
+			root->item = cursor->item;
 
 			if (parent->left == cursor)
-				parent->left = device_delete_node(parent->left, cursor->data);
+				parent->left = device_delete_node(parent->left, cursor->item);
 			else
-				parent->right = device_delete_node(parent->right, cursor->data);
+				parent->right = device_delete_node(parent->right, cursor->item);
 		}
 		else
 		{
@@ -257,7 +257,7 @@ void device_print_tree(deviceTree* root, int space)
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%d\n", root->data);
+	printf("%d\n", root->item);
 
 	// Process left child
 	device_print_tree(root->left, space + COUNT);
@@ -266,9 +266,9 @@ void device_print_tree(deviceTree* root, int space)
 void device_save_tree_to_file(deviceTree* root, FILE* ifPtr) {
 	if (root) {
 		device_save_tree_to_file(root->left, ifPtr);
-		fwrite(&root->data, sizeof(struct device), 1, ifPtr);
-		LOG_VAR(DEBUG, "worker %d saved to items file", root->data.sn);
-		printf("worker '%d' has been SAVED to items-file", root->data.sn);
+		fwrite(&root->item, sizeof(struct device), 1, ifPtr);
+		LOG_VAR(DEBUG, "worker %d saved to items file", root->item.sn);
+		printf("worker '%d' has been SAVED to items-file", root->item.sn);
 		device_save_tree_to_file(root->right, ifPtr);
 	}
 }

@@ -140,11 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="files.c" />
+    <ClCompile Include="function.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="device_binary_tree.c" />
     <ClCompile Include="user_binary_tree.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="function.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="log_file.h" />
     <ClInclude Include="device_binary_tree.h" />

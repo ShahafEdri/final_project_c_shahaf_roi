@@ -27,6 +27,7 @@
 #include "Header.h"
 #include "device_binary_tree.h"
 #include "user_binary_tree.h"
+#include "function.h"
 
 
 void func(FILE* wfPtr) {
@@ -56,7 +57,7 @@ user user_validation(userTree** root) {
 	userTree* userNode = user_search(*root, user_var);
 	if (userNode != NULL) {
 		LOG_VAR(info, "user %s found in database", user_var.username);
-		user_var = userNode->data;
+		user_var = userNode->item;
 	}
 	else {
 		printf("tried to enter a worng username-- > % s", user_var.username);
@@ -129,8 +130,6 @@ user create_admin() {
 	user admin_user = { .fullname = "System_Manager",.level = 3,.password = "admin",.username = "admin" };
 	return admin_user;
 }
-
-void view_device() {}
 
 void update_device() {}
 
@@ -237,13 +236,14 @@ void main() {
 			break;
 		case(VIEW): // view - 1
 			LOG_VAR(INFO, "user %s chose function - view", user_var.fullname);
-			view_device();
+			view_devices(deviceRoot);
 			break;
 		case(SEARCH): // search - 2 -- complete
 			search_device();
 			break;
 		case(ADD): // add - 3 complete
-			add_device();
+			insertNewItem(deviceRoot);
+			//add_device();
 			break;
 		case(UPDATE): // update - 4 -- complete
 			update_device();
