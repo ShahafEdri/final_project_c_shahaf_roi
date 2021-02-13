@@ -47,6 +47,8 @@ void device_print_inorder(deviceTree* root);
 
 void device_print_postorder(deviceTree* root);
 
+void device_print_items(device* root);
+
 void device_deltree(deviceTree** root);
 
 deviceTree* device_search(deviceTree* root, device item);

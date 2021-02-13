@@ -55,7 +55,7 @@
 //	return node;
 //}
 
-void insertNewItem(deviceTree* deviceRoot)
+void add_device(deviceTree* deviceRoot)
 {
 	device item;
 	printf("enter item serial number:\n");
@@ -77,3 +77,64 @@ void insertNewItem(deviceTree* deviceRoot)
 
 	device_insert_iterative(&deviceRoot, item);
 }
+
+
+void update_device(deviceTree* deviceRoot) {
+	deviceTree* Node = (deviceTree*)malloc(sizeof(deviceTree));
+	printf("what is the serial-number of the prodect you want to change? --> ");
+	scanf_s("%d", Node->item.sn);
+	Node = device_search(deviceRoot, Node->item);
+	printf(ITEM_PARAMETERS);
+	device_print_items(&Node->item);
+	int change_option;
+	printf("what what would you like to change in the product (by number)? --> ");
+	scanf_s("%d", &change_option);
+	switch (change_option)
+	{
+	case(1): // serial number
+		scanf("%d", Node->item.sn);
+		break;
+	case(2): // brand
+		scanf("%s", Node->item.brand);
+		break;
+	case(3): // company
+		scanf("%s", Node->item.company);
+		break;
+	case(4): // price
+		scanf("%s", Node->item.price);
+		break;
+	case(5): // stock
+		printf("1 for true 0 for false");
+		scanf("%d", Node->item.stock);
+		break;
+	case(6): // date
+		scanf("%s", Node->item.date);
+		break;
+	default:
+		printf("no action was picked");
+		break;
+	}
+	prinf("changes made:\n");
+	device_print_items(&Node->item);
+}
+
+void search_device() {}
+
+void delete_device(deviceTree* deviceRoot) {
+	printf("enter serial number of device you want to delete: ");
+	device item;
+	scanf_s("%d", item.sn);
+	if (!device_delete_node(deviceRoot, item))
+		printf("device was deleted successfully");
+	else
+		printf("device could not be found");
+	return;
+}
+
+void staff_view() {}
+
+void staff_addition() {}
+
+void staff_update() {}
+
+void staff_deletion() {}

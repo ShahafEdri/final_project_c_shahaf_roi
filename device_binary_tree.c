@@ -132,6 +132,17 @@ void device_print_postorder(deviceTree* root)
 	}
 }
 
+void device_print_items(device* item)
+{
+	printf("product :s details:\n", item->brand);
+	printf("Serial Number: \t%d\n", item->sn);
+	printf("brand name: \t%s\n", item->brand);
+	printf("company name: \t%s\n", item->company);
+	printf("price name: \t%f\n", item->price);
+	printf("stock status: \t%d\n", item->stock);
+	printf("aquire date: \t%s\n", item->date);
+}
+
 void device_deltree(deviceTree** root)
 {
 	if (*root)
@@ -272,6 +283,8 @@ void device_save_tree_to_file(deviceTree* root, FILE* ifPtr) {
 		device_save_tree_to_file(root->right, ifPtr);
 	}
 }
+
+
 
 //void main()
 //{

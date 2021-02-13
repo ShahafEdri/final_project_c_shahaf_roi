@@ -131,21 +131,6 @@ user create_admin() {
 	return admin_user;
 }
 
-void update_device() {}
-
-void add_device() {}
-
-void search_device() {}
-
-void delete_device() {}
-
-void staff_view() {}
-
-void staff_addition() {}
-
-void staff_update() {}
-
-void staff_deletion() {}
 
 void main() {
 	init_func();
@@ -242,11 +227,10 @@ void main() {
 			search_device();
 			break;
 		case(ADD): // add - 3 complete
-			insertNewItem(deviceRoot);
-			//add_device();
+			add_device(deviceRoot);
 			break;
 		case(UPDATE): // update - 4 -- complete
-			update_device();
+			update_device(deviceRoot);
 			break;
 		case(DELETE): // delete - 5 --complete
 			delete_device();
