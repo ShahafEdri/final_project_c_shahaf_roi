@@ -132,15 +132,16 @@ void device_print_postorder(deviceTree* root)
 	}
 }
 
-void device_print_items(device* item)
+void device_print_all_items(device* item)
 {
-	printf("product :s details:\n", item->brand);
-	printf("Serial Number: \t%d\n", item->sn);
-	printf("brand name: \t%s\n", item->brand);
-	printf("company name: \t%s\n", item->company);
-	printf("price name: \t%f\n", item->price);
-	printf("stock status: \t%d\n", item->stock);
-	printf("aquire date: \t%s\n", item->date);
+	printf("%-10d%-15s%-15s%-10f%-10d%-15s\n",
+		item->sn,
+		item->brand,
+		item->company,
+		item->price,
+		item->stock ? 'V' : 'X', // if 1 then V else X
+		item->date
+	);
 }
 
 void device_deltree(deviceTree** root)
@@ -154,24 +155,121 @@ void device_deltree(deviceTree** root)
 	}
 }
 
-deviceTree* device_search(deviceTree* root, device item)
+deviceTree* device_searchByBST(deviceTree* root, int serial) // preorder
 {
 	if (!root)
 		return NULL;
 
-	if (item.sn < root->item.sn)
-	{
-		device_search(root->left, item);
-	}
-	else if (item.sn > root->item.sn)
-	{
-		device_search(root->right, item);
-	}
-	else if (item.sn == root->item.sn)
-	{
+	if (serial < root->item.sn)
+		device_searchByBST(root->left, serial);
+	else if (serial > root->item.sn)
+		device_searchByBST(root->right, serial);
+	else // if (serial == root->item.sn)
 		return root;
-	}
 }
+
+void searchDeviceBySerialNum(deviceTree* root, int serial, enumSearchTypes searchFlag) { // preorder
+	if (!root)
+		return ;
+
+	switch (searchFlag)
+	{
+	case(e_equal):
+		if (serial == root->item.sn)
+			device_print_all_items(&root->item);
+		break;
+	case(e_forward_or_bigger):
+		if (serial < root->item.sn)
+			device_print_all_items(&root->item);
+		break;
+	case(e_backword_or_smaller):
+		if (serial > root->item.sn)
+			device_print_all_items(&root->item);
+		break;
+	}
+	searchDeviceBySerialNum(root->left, serial, searchFlag);
+	searchDeviceBySerialNum(root->right, serial, searchFlag);
+}
+
+void searchDeviceByBrand(deviceTree* root, char* brand) { // preorder
+	if (!root)
+		return ;
+
+	if (isZero(strcmp(brand, root->item.brand)))
+		device_print_all_items(&root->item);
+	searchDeviceByBrand(root->left, brand);
+	searchDeviceByBrand(root->right, brand);
+}
+
+
+void searchDeviceByCompany(deviceTree* root, char* company) { // preorder
+	if (!root)
+		return ;
+
+	if (isZero(strcmp(company, root->item.company)))
+		device_print_all_items(&root->item);
+	searchDeviceByCompany(root->left, company);
+	searchDeviceByCompany(root->right, company);
+}
+
+
+void searchDeviceByPrice(deviceTree* root, float price, enumSearchTypes searchFlag) { // preorder
+	if (!root)
+		return ;
+
+	switch (searchFlag)
+	{
+	case(e_equal):
+		if (price == root->item.price)
+			device_print_all_items(&root->item);
+		break;
+	case(e_forward_or_bigger):
+		if (price < root->item.price)
+			device_print_all_items(&root->item);
+		break;
+	case(e_backword_or_smaller):
+		if (price > root->item.price)
+			device_print_all_items(&root->item);
+		break;
+	}
+	searchDeviceByPrice(root->left, price, searchFlag);
+	searchDeviceByPrice(root->right, price, searchFlag);
+}
+
+
+void searchByStock(deviceTree* root, bool isInStock) { // preorder
+	if (!root)
+		return;
+
+	if (isInStock == root->item.stock)
+		device_print_all_items(&root->item);
+	searchByStock(root->left, isInStock);
+	searchByStock(root->right, isInStock);
+}
+
+void searchByDate(deviceTree* root, char* date, enumSearchTypes searchFlag) {
+	if (!root)
+		return ;
+
+	switch (searchFlag)
+	{
+	case(e_equal):
+		if (isZero(strcmp(date, root->item.date)))
+			device_print_all_items(&root->item);
+		break;
+	case(e_forward_or_bigger):
+		if (isPositive(strcmp(date, root->item.date)))
+			device_print_all_items(&root->item);
+		break;
+	case(e_backword_or_smaller):
+		if (isNegative(strcmp(date, root->item.date)))
+			device_print_all_items(&root->item);
+		break;
+	}
+	searchByDate(root->left, date, searchFlag);
+	searchByDate(root->right, date, searchFlag);
+}
+
 
 deviceTree* device_min_value(deviceTree* node, int* height)
 {
@@ -268,7 +366,7 @@ void device_print_tree(deviceTree* root, int space)
 	printf("\n");
 	for (i = 0; i < space; i++)
 		printf(" ");
-	printf("%d\n", root->item);
+	printf("%d\n", root->item.sn);
 
 	// Process left child
 	device_print_tree(root->left, space + COUNT);

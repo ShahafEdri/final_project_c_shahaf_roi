@@ -16,6 +16,10 @@
 #define TEXT_LEN 15
 #define FULLNAME_LEN 20
 
+#define isNegative(X) 0 > X
+#define isPositive(X) 0 < X
+#define isZero(X) 0 == X
+
 typedef struct user
 {
 	char username[TEXT_LEN];
@@ -31,8 +35,23 @@ typedef struct device
 	char company[TEXT_LEN];
 	float price;
 	bool stock;
-	char date[TEXT_LEN];
+	char date[TEXT_LEN];// format -> YYYY-MM-DD
 }device;
+
+typedef enum enumSearchTypes
+{
+	e_equal,
+	e_forward_or_bigger,
+	e_backword_or_smaller,
+}enumSearchTypes;
+
+
+typedef enum enumManagerLevel
+{
+	e_viewer=1,
+	e_employee,
+	e_manager,
+}enumManagerLevel;
 
 
 FILE* logFile;

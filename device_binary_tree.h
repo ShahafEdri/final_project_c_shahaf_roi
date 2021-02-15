@@ -21,6 +21,7 @@
 
 #include<stdlib.h>
 #include<stdio.h>
+#include <stdbool.h>
 #include "Header.h"
 
 #define COUNT 10
@@ -30,7 +31,7 @@ typedef struct deviceTree {
 	struct deviceTree* right, * left, * parent;
 }deviceTree;
 
-//typedef tree deviceTree;
+
 
 /*create a new node*/
 deviceTree* device_create_node(deviceTree* parent, device item);
@@ -47,11 +48,23 @@ void device_print_inorder(deviceTree* root);
 
 void device_print_postorder(deviceTree* root);
 
-void device_print_items(device* root);
+void device_print_all_items(device* root);
 
 void device_deltree(deviceTree** root);
 
-deviceTree* device_search(deviceTree* root, device item);
+deviceTree* device_searchByBST(deviceTree* root, int serial);
+
+void searchDeviceBySerialNum(deviceTree* root, int serial, enumSearchTypes searchFlag);
+
+void searchDeviceByBrand(deviceTree* root, char* brand);
+
+void searchDeviceByCompany(deviceTree* root, char* company);
+
+void searchDeviceByPrice(deviceTree* root, float price, enumSearchTypes searchFlag);
+
+void searchByStock(deviceTree* root, bool isInStock);
+
+void searchByDate(deviceTree* root, char* date, enumSearchTypes searchFlag);
 
 deviceTree* device_min_value(deviceTree* node, int* height);
 

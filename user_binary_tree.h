@@ -25,11 +25,6 @@
 
 #define COUNT 10
 
-#define isNegative(X) 0 > X
-#define isPositive(X) 0 < X
-#define isZero(X) 0 == X
-
-
 typedef struct userTree {
 	user info;
 	struct userTree* right, * left, * parent;
@@ -54,7 +49,7 @@ void user_print_postorder(userTree* root);
 
 void user_deltree(userTree** root);
 
-userTree* user_search(userTree* root, user info);
+userTree* user_searchByBST(userTree* root, user info);
 
 userTree* user_min_value(userTree* node, int* height);
 

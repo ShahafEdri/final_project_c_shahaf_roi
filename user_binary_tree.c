@@ -132,6 +132,16 @@ void user_print_postorder(userTree* root)
 	}
 }
 
+void user_print_all_user_info(user* member)
+{
+	printf("%-15s%-15s%-15s%-10d\n",
+		member->username,
+		member->fullname,
+		member->password,
+		member->level
+	);
+}
+
 void user_deltree(userTree** root)
 {
 	if (*root)
@@ -143,24 +153,25 @@ void user_deltree(userTree** root)
 	}
 }
 
-userTree* user_search(userTree* root, user info)
+userTree* user_searchByBST(userTree* root, user info)
 {
 	if (!root)
 		return NULL;
 
 	if (isNegative(strcmp(info.username, (root)->info.username)))
 	{
-		user_search(root->left, info);
+		user_searchByBST(root->left, info);
 	}
 	else if (isPositive(strcmp(info.username, (root)->info.username)))
 	{
-		user_search(root->right, info);
+		user_searchByBST(root->right, info);
 	}
-	else if (isZero(strcmp(info.username, (root)->info.username)))
+	else //if (isZero(strcmp(info.username, (root)->info.username)))
 	{
 		return root;
 	}
 }
+
 
 userTree* user_min_value(userTree* node, int* height)
 {
