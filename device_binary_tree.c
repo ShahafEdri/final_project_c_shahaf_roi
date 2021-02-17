@@ -1,3 +1,7 @@
+/*
+Assigned by:
+Shahaf Edri 206328593
+*/
 /************************************************************************
 *	C Binary-Search-Tree (or BST in short)								*
 *	with left, right & parent pointers									*

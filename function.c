@@ -1,3 +1,7 @@
+/*
+Assigned by:
+Shahaf Edri 206328593
+*/
 #include<stdio.h>
 #include <string.h>
 #include <ctype.h>

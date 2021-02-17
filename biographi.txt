@@ -1,2 +1,18 @@
-log file
+biographi file
 	https://stackoverflow.com/questions/3156159/how-to-write-logfile-in-c
+	https://stackoverflow.com/questions/11166833/differs-in-levels-of-indirection-from-int-c
+	https://www.geeksforgeeks.org/use-fflushstdin-c/
+	https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c
+	https://stackoverflow.com/questions/2187474/i-am-not-able-to-flush-stdin
+	https://www.geeksforgeeks.org/enumeration-enum-c/
+	https://www.programiz.com/c-programming/c-file-input-output
+	https://forums.codeguru.com/showthread.php?75986-How-to-overwrite-a-file-using-fopen-and-fwrite
+	https://stackoverflow.com/questions/50428327/overwrite-contents-of-the-file-in-c
+	https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/Decisions.html
+	https://www.tutorialspoint.com/c_standard_library/c_function_scanf.htm
+	https://www.programiz.com/c-programming/library-function/ctype.h/isdigit
+	https://stackoverflow.com/questions/1662719/looping-through-enum-values
+	https://www.geeksforgeeks.org/binary-search-tree-data-structure/
+	https://www.tutorialspoint.com/c_standard_library/string_h.htm
+	https://www.tutorialspoint.com/c_standard_library/time_h.htm
+	https://en.wikipedia.org/wiki/C_date_and_time_functions
