@@ -21,6 +21,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "Header.h"
 #include "device_binary_tree.h"
 
@@ -117,7 +118,8 @@ void device_print_inorder(deviceTree* root)
 	if (root)
 	{
 		device_print_inorder(root->left);
-		printf("%d ", root->item.sn);
+		device_print_all_items(&(root->item), false);
+		//printf("%d ", root->item.sn);
 		device_print_inorder(root->right);
 	}
 }
@@ -132,14 +134,23 @@ void device_print_postorder(deviceTree* root)
 	}
 }
 
-void device_print_all_items(device* item)
-{
-	printf("%-10d%-15s%-15s%-10f%-10d%-15s\n",
+void device_print_all_items(device* item, bool showHeader) {
+	if (showHeader) {
+		printf("%-15s%-15s%-15s%-10s%-10s%-15s\n",
+			"S/N",
+			"Brand",
+			"Company",
+			"Price",
+			"Stock?", // if 1 then V else X
+			"Date"
+		);
+	}
+	printf("%09d      %-15s%-15s%-10.1f%-10s%-15s\n",
 		item->sn,
 		item->brand,
 		item->company,
 		item->price,
-		item->stock ? 'V' : 'X', // if 1 then V else X
+		item->stock ? "V" : "X", // if 1 then V else X
 		item->date
 	);
 }
@@ -155,7 +166,7 @@ void device_deltree(deviceTree** root)
 	}
 }
 
-deviceTree* device_searchByBST(deviceTree* root, int serial) // preorder
+deviceTree* device_searchByBST(deviceTree* root, int serial)
 {
 	if (!root)
 		return NULL;
@@ -170,21 +181,21 @@ deviceTree* device_searchByBST(deviceTree* root, int serial) // preorder
 
 void searchDeviceBySerialNum(deviceTree* root, int serial, enumSearchTypes searchFlag) { // preorder
 	if (!root)
-		return ;
+		return;
 
 	switch (searchFlag)
 	{
 	case(e_equal):
 		if (serial == root->item.sn)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	case(e_forward_or_bigger):
 		if (serial < root->item.sn)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	case(e_backword_or_smaller):
 		if (serial > root->item.sn)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	}
 	searchDeviceBySerialNum(root->left, serial, searchFlag);
@@ -193,10 +204,10 @@ void searchDeviceBySerialNum(deviceTree* root, int serial, enumSearchTypes searc
 
 void searchDeviceByBrand(deviceTree* root, char* brand) { // preorder
 	if (!root)
-		return ;
+		return;
 
 	if (isZero(strcmp(brand, root->item.brand)))
-		device_print_all_items(&root->item);
+		device_print_all_items(&root->item, false);
 	searchDeviceByBrand(root->left, brand);
 	searchDeviceByBrand(root->right, brand);
 }
@@ -204,10 +215,10 @@ void searchDeviceByBrand(deviceTree* root, char* brand) { // preorder
 
 void searchDeviceByCompany(deviceTree* root, char* company) { // preorder
 	if (!root)
-		return ;
+		return;
 
 	if (isZero(strcmp(company, root->item.company)))
-		device_print_all_items(&root->item);
+		device_print_all_items(&root->item, false);
 	searchDeviceByCompany(root->left, company);
 	searchDeviceByCompany(root->right, company);
 }
@@ -215,21 +226,21 @@ void searchDeviceByCompany(deviceTree* root, char* company) { // preorder
 
 void searchDeviceByPrice(deviceTree* root, float price, enumSearchTypes searchFlag) { // preorder
 	if (!root)
-		return ;
+		return;
 
 	switch (searchFlag)
 	{
 	case(e_equal):
 		if (price == root->item.price)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	case(e_forward_or_bigger):
 		if (price < root->item.price)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	case(e_backword_or_smaller):
 		if (price > root->item.price)
-			device_print_all_items(&root->item);
+			device_print_all_items(&root->item, false);
 		break;
 	}
 	searchDeviceByPrice(root->left, price, searchFlag);
@@ -242,32 +253,64 @@ void searchByStock(deviceTree* root, bool isInStock) { // preorder
 		return;
 
 	if (isInStock == root->item.stock)
-		device_print_all_items(&root->item);
+		device_print_all_items(&root->item, false);
 	searchByStock(root->left, isInStock);
 	searchByStock(root->right, isInStock);
 }
 
-void searchByDate(deviceTree* root, char* date, enumSearchTypes searchFlag) {
-	if (!root)
-		return ;
+int* parseDateStrToDateInt(char* date) {
+	int* date_int = (int*)malloc(sizeof(int) * 3);
+	date_int[e_day] = 0;
+	date_int[e_month] = 0;
+	date_int[e_year] = 0;
 
-	switch (searchFlag)
-	{
+	if (isdigit(date[0])) date_int[e_day] += (date[0] - '0') * 10;
+	if (isdigit(date[1])) date_int[e_day] += (date[1] - '0');
+	// date[2] = '-'
+	if (isdigit(date[3])) date_int[e_month] += (date[3] - '0') * 10;
+	if (isdigit(date[4])) date_int[e_month] += (date[4] - '0');
+	// date[5] = '-'
+	if (isdigit(date[6])) date_int[e_year] += (date[6] - '0') * 1000;
+	if (isdigit(date[7])) date_int[e_year] += (date[7] - '0') * 100;
+	if (isdigit(date[8])) date_int[e_year] += (date[8] - '0') * 10;
+	if (isdigit(date[9])) date_int[e_year] += (date[9] - '0');
+	return date_int;
+}
+
+void searchByDate(deviceTree* root, char* dateStr, enumSearchTypes searchFlag) {
+	if (!root)
+		return;
+
+	int* targetDate;
+	targetDate = parseDateStrToDateInt(dateStr);
+	int* root_date;
+	root_date = parseDateStrToDateInt(root->item.date);
+	bool correctRootDateFlag = true;
+	switch (searchFlag) {
 	case(e_equal):
-		if (isZero(strcmp(date, root->item.date)))
-			device_print_all_items(&root->item);
+		for (int dateCode = e_year; (dateCode >= e_day) && (correctRootDateFlag == true); dateCode--)
+			if (targetDate[dateCode] == root_date[dateCode])
+				correctRootDateFlag = false;
 		break;
 	case(e_forward_or_bigger):
-		if (isPositive(strcmp(date, root->item.date)))
-			device_print_all_items(&root->item);
-		break;
+		for (int dateCode = e_year; (dateCode >= e_day) && (correctRootDateFlag == true); dateCode--)
+			if (targetDate[dateCode] < root_date[dateCode])
+				break;
+			else if (targetDate[dateCode] > root_date[dateCode])
+				correctRootDateFlag = false;
+		break;//    20-01-2017            13-01-2018
 	case(e_backword_or_smaller):
-		if (isNegative(strcmp(date, root->item.date)))
-			device_print_all_items(&root->item);
+		for (int dateCode = e_year; (dateCode >= e_day) && (correctRootDateFlag == true); dateCode--)
+			if (targetDate[dateCode] > root_date[dateCode])
+				break;
+			else if (targetDate[dateCode] < root_date[dateCode])
+				correctRootDateFlag = false;
 		break;
 	}
-	searchByDate(root->left, date, searchFlag);
-	searchByDate(root->right, date, searchFlag);
+	if (correctRootDateFlag)
+		device_print_all_items(&root->item, false);
+	searchByDate(root->left, dateStr, searchFlag);
+	searchByDate(root->right, dateStr, searchFlag);
 }
 
 
@@ -377,72 +420,7 @@ void device_save_tree_to_file(deviceTree* root, FILE* ifPtr) {
 		device_save_tree_to_file(root->left, ifPtr);
 		fwrite(&root->item, sizeof(struct device), 1, ifPtr);
 		LOG_VAR(DEBUG, "worker %d saved to items file", root->item.sn);
-		printf("worker '%d' has been SAVED to items-file", root->item.sn);
+		printf("\titem (SN) -> '%d' has been SAVED to items-file\n", root->item.sn);
 		device_save_tree_to_file(root->right, ifPtr);
 	}
 }
-
-
-
-//void main()
-//{
-//	int num;
-//	tree *temp = NULL;
-//	tree *root = NULL;
-//	
-//	/* Inserting nodes into tree */
-//	//insert_recursive(&root, NULL , 9);
-//	//insert_recursive(&root, NULL , 4);
-//	//insert_recursive(&root, NULL, 15);
-//	//insert_recursive(&root, NULL, 6);
-//	//insert_recursive(&root, NULL, 12);
-//	//insert_recursive(&root, NULL, 17);
-//	//insert_recursive(&root, NULL, 2);
-//
-//	insert_iterative(&root, 5);
-//	insert_iterative(&root, 3);
-//	insert_iterative(&root, 7);
-//	insert_iterative(&root, 15);
-//	insert_iterative(&root, 6);
-//	insert_iterative(&root, 12);
-//	insert_iterative(&root, 17);
-//	insert_iterative(&root, 2);
-//	insert_iterative(&root, 0);
-//
-//	print_tree(root,0);
-//
-//	/* Printing nodes of tree */
-//	printf("Pre Order Display:  ");	print_preorder(root);	printf("\n\n");
-//	printf("In Order Display:   ");	print_inorder(root);	printf("\n\n");
-//	printf("Post Order Display: ");	print_postorder(root);	printf("\n\n");
-//
-//	/* Delete node in tree */	
-//	printf("Value to delete in tree: ");
-//	scanf("%d",&num);
-//	printf("\n");
-//
-//	root = delete_node(root, num);
-//
-//	/* Search node into tree */	
-//	printf("Value to search in tree: ");
-//	scanf("%d",&num);
-//	printf("\n");
-//
-//	temp = search(root, num);
-//	if (temp)
-//	{
-//		printf("Data found in tree: \n");
-//		printf("Node: %d\n", temp->data);
-//		
-//		if (temp->parent)	{ printf("Parent: %d\n", temp->parent->data);	} else { printf("Parent: NULL\n");		}
-//		if (temp->left)		{ printf("Left Son: %d\n", temp->left->data);	} else { printf("Left Son: NULL\n");	}
-//		if (temp->right)	{ printf("Right Son: %d\n", temp->right->data);	} else { printf("Right Son: NULL\n");	}
-//	}
-//	else
-//	{
-//		printf("Data Not found in tree.\n");
-//	}
-//
-//	/* Deleting all nodes of tree */
-//	deltree(&root);
-//}

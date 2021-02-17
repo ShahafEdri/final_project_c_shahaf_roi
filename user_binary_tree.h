@@ -25,6 +25,8 @@
 
 #define COUNT 10
 
+#define USER_PRINT %-20s%-15s%-15s%-10d
+
 typedef struct userTree {
 	user info;
 	struct userTree* right, * left, * parent;
@@ -46,6 +48,8 @@ void user_print_preorder(userTree* root);
 void user_print_inorder(userTree* root);
 
 void user_print_postorder(userTree* root);
+
+void user_print_all_user_info(user* member, bool showHeader);
 
 void user_deltree(userTree** root);
 

@@ -24,9 +24,6 @@
     <ClCompile Include="device_binary_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="files.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="function.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,10 +46,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="biographi.txt">
+    <Text Include="log_file.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="log_file.txt">
+    <Text Include="biographi.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

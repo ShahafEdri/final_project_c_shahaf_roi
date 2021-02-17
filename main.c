@@ -50,40 +50,47 @@ bool check_if_there_are_files() {
 user user_validation(userTree** root) {
 	//input username
 	printf("enter your username --> ");
-	//user user_var; // TODO uncomment
-	user user_var = { .username = "admin" }; // TODO remove
-	//scanf("%s", user_var.username); //TODO uncomment
+	user user_var; 
+	scanf("%s", user_var.username); 
 	//check if username exist in users-BS-Tree
 	userTree* userNode = user_searchByBST(*root, user_var);
-	if (userNode != NULL) {
-		LOG_VAR(info, "user %s found in database", user_var.username);
-		user_var = userNode->info;
+	int tries = 1;
+	while (userNode == NULL) {
+		if (tries >= 3) {
+			printf("wrong username enterd too many times {%d/3}\n", tries);
+			printf("EXITING PROGRAM\n\n");
+			LOG_VAR(ERROR, "tried to enter a worng username to manny time {%d/3}", tries);
+			exit(1);
+		}
+		printf("ERROR - tried {%d/3} to enter a worng username {%s}\n", tries, user_var.username);
+		LOG_VAR(ERROR, "tried to enter a worng username {%s}", user_var.username);
+		printf("enter your username --> ");
+		scanf("%s", user_var.username); 
+		userNode = user_searchByBST(*root, user_var);
+		tries++;
 	}
-	else {
-		printf("tried to enter a worng username-- > % s", user_var.username);
-		LOG_VAR(info, "tried to enter a worng username --> %s ", user_var.username);
-	}
+	LOG_VAR(INFO, "user %s found in database", user_var.username);
+	user_var = userNode->info;
 	//input password
 	printf("enter your password --> ");
-	char userPassword[TEXT_LEN] = "admin";
-	int tries = 0;
-	for (tries = 0; tries < 3; tries++) {
-		//scanf("%s", userPassword);
-		//check if password correct
-		if (!strcmp(userPassword, user_var.password)) {
-			printf("successful login");
-			LOG_VAR(info, "user %s has made a successful login", user_var.username);
-			return user_var;
+	char userPassword[TEXT_LEN];
+	scanf("%s", userPassword); 
+	tries = 1;
+	while (!(isZero(strcmp(userPassword, user_var.password)))) {//check if password correct
+		if (tries >= 3) {
+			printf("ERROR - exiting program, tried maximum tries (%d/3)\n\n", tries);
+			LOG_VAR(ERROR, "user %s has entered a wrong password TOO MANY TIMES", user_var.username);
+			exit(1);
 		}
-		else {
-			printf("wrong password entered");
-			LOG_VAR(info, "user %s has entered a wrong password", user_var.username);
-		}
-		printf("try again (%d)", (tries + 1));
+		printf("wrong password entered\n");
+		LOG_VAR(DEBUG, "user %s has entered a wrong password", user_var.username);
+		tries++;
+		printf("try again {%d/3} --> ", (tries));
+		scanf("%s", userPassword);
 	}
-	printf("exiting program, tried maximum tries (%d)", tries);
-	LOG_VAR(ERROR, "user %s has entered a wrong password TOO MANY TIMES", user_var.username);
-	exit(1);
+	printf("successful login\n");
+	LOG_VAR(INFO, "user %s has made a successful login", user_var.username);
+	return user_var;
 }
 
 void load_workers_file(FILE* wfPtr, userTree** userRoot) {
@@ -109,15 +116,37 @@ void load_items_file(FILE* ifPtr, deviceTree** deviceRoot) {
 }
 
 void init_func() {
-	err = fopen_s(&logFile, "log_file.txt", "a");
+	errorLogFile = fopen_s(&logFile, "log_file.txt", "a");
+	if (errorLogFile)
+	{
+		printf("ERROR!!! - could not open LOG file!");
+		exit(1);
+	}
 }
 
 void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifPtr) {
-	rewind(wfPtr);
+	printf("\nclosing the program\n");
+
+	printf("saving to files:\n");
+	freopen(WORKERS_FILE_NAME, "wb", wfPtr);
+	//rewind(wfPtr);
+	printf("Workers:\n");
 	user_save_tree_to_file(userRoot, wfPtr);
-	rewind(ifPtr);
+	LOG(DEBUG, "finished Workers tree saving sucessfully");
+
+	if ((errWorkers = fclose(wfPtr)) == 0)
+		LOG(DEBUG, "Workers file was closed sucessfully");
+
+	freopen(ITEMS_FILE_NAME, "wb", ifPtr);
+	//rewind(ifPtr);
+	printf("Items:\n");
 	device_save_tree_to_file(deviceRoot, ifPtr);
-	err = fclose(logFile);
+	LOG(DEBUG, "finished Items tree saving sucessfully");
+
+	if ((errItems = fclose(ifPtr)) == 0)
+		LOG(DEBUG, "Items file was closed sucessfully");
+	if ((errorLogFile = fclose(logFile)) == 0)
+		LOG(DEBUG, "Items file was closed sucessfully");
 }
 
 user create_admin() {
@@ -125,6 +154,12 @@ user create_admin() {
 	return admin_user;
 }
 
+//char requestActionFromUser() {
+//	char action;
+//	while (((action = getchar()) == '\n') || (action == EOF));
+//	action = action - '0'; //char to int
+//	return action;
+//}
 
 void main() {
 	init_func();
@@ -132,77 +167,59 @@ void main() {
 	deviceTree* deviceRoot = NULL;
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
-	err = (fopen_s(&ifPtr, "items.bin", "ab+")); // try to open file
-	err = (fopen_s(&wfPtr, "workers.bin", "ab+")); // try to open file
+	errItems = (fopen_s(&ifPtr, ITEMS_FILE_NAME, "rb")); // try to open file
+	errWorkers = (fopen_s(&wfPtr, WORKERS_FILE_NAME, "rb")); // try to open file
 
-	/* read all records from file (until eof) */
-	user user_var;
-	//printf("\n\n%-20s%-15s%-15s%-10s\n",
-		//"fullname", "username",
-		//"password", "level");
-	fread(&user_var, sizeof(struct user), 1, wfPtr);
-	while (!feof(wfPtr)) {
-		/* display record */
-		printf("%-20s%-15s%-15s%-10d\n",
-			user_var.fullname, user_var.username,
-			user_var.password, user_var.level);
-		fread(&user_var, sizeof(struct user), 1, wfPtr);
-	} /* end while */
-
-
-	if (!(err == 0))
-	{
-		LOG(ERROR, "workers.bin file could not open");
-		printf("workers.bin file could not open");
+	if ((errWorkers != 0) || (errItems != 0)) {
+		LOG(ERROR, "file could not open");
+		printf("file could not open");
 		exit(1);
 	}
+
 	fseek(wfPtr, 0, SEEK_END);
 	if (ftell(wfPtr) == SEEK_SET) {  // file is empty
 		printf("file is empty\n");
 		user admin_user = create_admin();
 		user_insert_iterative(&userRoot, admin_user);
-		printf("printing tree: LEFT TO RIGHT");
-		user_print_tree(userRoot, 0);
+		printf("new user -> admin");
 	}
 	else { // file not empty
-		//users
-		load_workers_file(wfPtr, &userRoot);// load_DB_files
-		printf("printing user tree: LEFT TO RIGHT\n");
-		user_print_tree(userRoot, 2);
+		load_workers_file(wfPtr, &userRoot);// load_DB_worker_file
+		load_items_file(ifPtr, &deviceRoot);// load_DB_items_file
 
-		//devices
-		load_items_file(ifPtr, &deviceRoot);// load_DB_files
-		printf("printing device tree: LEFT TO RIGHT\n");
-		device_print_tree(deviceRoot, 2);
-
-		printf("FILES LOADED!");
+		printf("FILES LOADED!\n");
 		LOG(DEBUG, "files loaded!");
 	}
+
 	//put in your username and password
-	user_var = user_validation(&userRoot);
+	user user_var = user_validation(&userRoot);
+	printf("user info:\n%-20s%-15s%-15s%-10d\n", user_var.fullname, user_var.username, user_var.password, user_var.level);
+
 	bool exitApplicationFlag = true;
 	while (exitApplicationFlag) {
-		printf("\n\nMENU:\n");
-		if (user_var.level == 1) //permissions - view, search, add
+		printf("\n____________________________________");
+		printf("\nMENU:\n");
+		if (user_var.level == e_viewer) //permissions - view, search
 			printf(SIMPLE_MENU); // print level 1 menu
-		else if (user_var.level == 2) //permissions - view, search, add, update, delete
+		else if (user_var.level == e_employee) //permissions - view, search, add, update, delete
 			printf(EMPLOYEE_MENU); // print level 2 menu
-		else if (user_var.level == 3) //permissions - view, search, add, update, delete, staff-view, staff-addition, staff-update, staff-deletion
+		else if (user_var.level == e_manager) //permissions - view, search, add, update, delete, staff-view, staff-addition, staff-update, staff-deletion
 			printf(MANAGER_MENU);// print level 3 menu
 
 		printf("what action would you want to make? (by number) --> ");
-		int action = 0;
+		char action = 0;
 		while (true) {
-			scanf_s("%d", &action);
-			if (((user_var.level == 1 && HAS_PERMISSION_FOR_ACTION_SIMPLE(action)) ||
-				(user_var.level == 2 && HAS_PERMISSION_FOR_ACTION_EMPLOYEE(action)) ||
-				(user_var.level == 3 && HAS_PERMISSION_FOR_ACTION_MANAGER(action))))
+			action = requestActionFromUser();
+			//while (((action = getchar()) == '\n') || (action == EOF));
+			//action = action - '0'; //char to int
+			if (((user_var.level == e_viewer && HAS_PERMISSION_FOR_ACTION_SIMPLE(action)) ||
+				(user_var.level == e_employee && HAS_PERMISSION_FOR_ACTION_EMPLOYEE(action)) ||
+				(user_var.level == e_manager && HAS_PERMISSION_FOR_ACTION_MANAGER(action))))
 				break;
-			printf("entered a wrong number, please choose again --> ");
+			printf("\nentered a wrong number {%d}, please choose again --> ", action);
 		}
 
-		switch (action)
-		{
+		switch (action) {
 			LOG_VAR(DEBUG, "executing action numebr %d", action);
 		case(EXIT): // exit - 0
 			LOG_VAR(INFO, "user %s chose to finish the program", user_var.fullname);
@@ -213,33 +230,41 @@ void main() {
 			view_all_devices(deviceRoot);
 			break;
 		case(SEARCH): // search - 2 -- complete
+			LOG_VAR(INFO, "user %s chose function - search", user_var.fullname);
 			search_device(deviceRoot);
 			break;
 		case(ADD): // add - 3 complete
-			add_device(deviceRoot);
+			LOG_VAR(INFO, "user %s chose function - add device", user_var.fullname);
+			add_device(&deviceRoot);
 			break;
 		case(UPDATE): // update - 4 -- complete
+			LOG_VAR(INFO, "user %s chose function - update device", user_var.fullname);
 			update_device(deviceRoot);
 			break;
 		case(DELETE): // delete - 5 --complete
-			delete_device(deviceRoot);
+			LOG_VAR(INFO, "user %s chose function - delete device", user_var.fullname);
+			delete_device(&deviceRoot);
 			break;
 		case(STAFF_VIEW): // staff-view - 6 -- complete
+			LOG_VAR(INFO, "user %s chose function - staff view", user_var.fullname);
 			view_all_staff_members(userRoot);
 			break;
 		case(STAFF_ADDITION): // staff-addition - 7 -- complete
+			LOG_VAR(INFO, "user %s chose function - staff addition", user_var.fullname);
 			staff_addition(userRoot);
 			break;
 		case(STAFF_UPDATE): // staff-update - 8 
+			LOG_VAR(INFO, "user %s chose function - staff update", user_var.fullname);
+			staff_update(userRoot);
 			break;
 		case(STAFF_DELETION): // staff-deletion - 9 -- complete
-			staff_deletion(userRoot);
+			LOG_VAR(INFO, "user %s chose function - staff deletion", user_var.fullname);
+			staff_deletion(&userRoot);
 			break;
 		default:
 			printf("The action is not supported.");
+			LOG(ERROR, "wrong number was entered");
 		}
-
 	}
-
 	end_func(userRoot, deviceRoot, wfPtr, ifPtr);
 }

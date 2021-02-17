@@ -26,6 +26,8 @@
 
 #define COUNT 10
 
+#define DEVICE_PRINT %-10d%-15s%-15s%-10f%-10d%-15s
+
 typedef struct deviceTree {
 	device item;
 	struct deviceTree* right, * left, * parent;
@@ -48,7 +50,7 @@ void device_print_inorder(deviceTree* root);
 
 void device_print_postorder(deviceTree* root);
 
-void device_print_all_items(device* root);
+void device_print_all_items(device* item, bool showHeader);
 
 void device_deltree(deviceTree** root);
 

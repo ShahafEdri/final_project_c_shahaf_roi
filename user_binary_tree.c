@@ -63,7 +63,7 @@ void user_insert_iterative(userTree** root, user info)
 					return;
 				}
 			}
-			else if (isNegative(strcmp(info.username, cursor->info.username)))
+			else if (isPositive(strcmp(info.username, cursor->info.username)))
 			{
 				if (cursor->right)
 					cursor = cursor->right;
@@ -117,7 +117,8 @@ void user_print_inorder(userTree* root)
 	if (root)
 	{
 		user_print_inorder(root->left);
-		printf("%s ", root->info.username);
+		user_print_all_user_info(&(root->info), false);
+		//printf("%s ", root->info.username);
 		user_print_inorder(root->right);
 	}
 }
@@ -132,14 +133,19 @@ void user_print_postorder(userTree* root)
 	}
 }
 
-void user_print_all_user_info(user* member)
-{
-	printf("%-15s%-15s%-15s%-10d\n",
+void user_print_all_user_info(user* member, bool showHeader) {
+	if (showHeader) {
+		printf("%-15s%-15s%-20s%-10s\n",
+			"USERNAME",
+			"PASSWORD",
+			"FULLNAME",
+			"LEVEL");
+	}
+	printf("%-15s%-15s%-20s%-10d\n",
 		member->username,
-		member->fullname,
 		member->password,
-		member->level
-	);
+		member->fullname,
+		member->level);
 }
 
 void user_deltree(userTree** root)
@@ -279,71 +285,7 @@ void user_save_tree_to_file(userTree* root, FILE* wfPtr) {
 		user_save_tree_to_file(root->left, wfPtr);
 		fwrite(&root->info, sizeof(struct user), 1, wfPtr);
 		LOG_VAR(DEBUG, "worker %s saved to workers file", root->info.username);
-		printf("worker '%s' has been SAVED to workers-file", root->info.username);
+		printf("\tworker -> '%s' has been SAVED to workers-file\n", root->info.username);
 		user_save_tree_to_file(root->right, wfPtr);
 	}
 }
-
-
-//void main()
-//{
-//	int num;
-//	tree *temp = NULL;
-//	tree *root = NULL;
-//	
-//	/* Inserting nodes into tree */
-//	//insert_recursive(&root, NULL , 9);
-//	//insert_recursive(&root, NULL , 4);
-//	//insert_recursive(&root, NULL, 15);
-//	//insert_recursive(&root, NULL, 6);
-//	//insert_recursive(&root, NULL, 12);
-//	//insert_recursive(&root, NULL, 17);
-//	//insert_recursive(&root, NULL, 2);
-//
-//	insert_iterative(&root, 5);
-//	insert_iterative(&root, 3);
-//	insert_iterative(&root, 7);
-//	insert_iterative(&root, 15);
-//	insert_iterative(&root, 6);
-//	insert_iterative(&root, 12);
-//	insert_iterative(&root, 17);
-//	insert_iterative(&root, 2);
-//	insert_iterative(&root, 0);
-//
-//	print_tree(root,0);
-//
-//	/* Printing nodes of tree */
-//	printf("Pre Order Display:  ");	print_preorder(root);	printf("\n\n");
-//	printf("In Order Display:   ");	print_inorder(root);	printf("\n\n");
-//	printf("Post Order Display: ");	print_postorder(root);	printf("\n\n");
-//
-//	/* Delete node in tree */	
-//	printf("Value to delete in tree: ");
-//	scanf("%d",&num);
-//	printf("\n");
-//
-//	root = delete_node(root, num);
-//
-//	/* Search node into tree */	
-//	printf("Value to search in tree: ");
-//	scanf("%d",&num);
-//	printf("\n");
-//
-//	temp = search(root, num);
-//	if (temp)
-//	{
-//		printf("Data found in tree: \n");
-//		printf("Node: %d\n", temp->data);
-//		
-//		if (temp->parent)	{ printf("Parent: %d\n", temp->parent->data);	} else { printf("Parent: NULL\n");		}
-//		if (temp->left)		{ printf("Left Son: %d\n", temp->left->data);	} else { printf("Left Son: NULL\n");	}
-//		if (temp->right)	{ printf("Right Son: %d\n", temp->right->data);	} else { printf("Right Son: NULL\n");	}
-//	}
-//	else
-//	{
-//		printf("Data Not found in tree.\n");
-//	}
-//
-//	/* Deleting all nodes of tree */
-//	deltree(&root);
-//}
