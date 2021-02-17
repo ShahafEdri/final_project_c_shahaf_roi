@@ -55,8 +55,8 @@ bool check_if_there_are_files() {
 user user_validation(userTree** root) {
 	//input username
 	printf("enter your username --> ");
-	user user_var; 
-	scanf("%s", user_var.username); 
+	user user_var;
+	scanf("%s", user_var.username);
 	//check if username exist in users-BS-Tree
 	userTree* userNode = user_searchByBST(*root, user_var);
 	int tries = 1;
@@ -70,7 +70,7 @@ user user_validation(userTree** root) {
 		printf("ERROR - tried {%d/3} to enter a worng username {%s}\n", tries, user_var.username);
 		LOG_VAR(ERROR, "tried to enter a worng username {%s}", user_var.username);
 		printf("enter your username --> ");
-		scanf("%s", user_var.username); 
+		scanf("%s", user_var.username);
 		userNode = user_searchByBST(*root, user_var);
 		tries++;
 	}
@@ -79,7 +79,7 @@ user user_validation(userTree** root) {
 	//input password
 	printf("enter your password --> ");
 	char userPassword[TEXT_LEN];
-	scanf("%s", userPassword); 
+	scanf("%s", userPassword);
 	tries = 1;
 	while (!(isZero(strcmp(userPassword, user_var.password)))) {//check if password correct
 		if (tries >= 3) {
@@ -114,7 +114,7 @@ void load_items_file(FILE* ifPtr, deviceTree** deviceRoot) {
 	device current_item_from_file;
 	fread(&current_item_from_file, sizeof(struct user), 1, ifPtr);
 	while (!(feof(ifPtr))) {
-		LOG_VAR(DEBUG, "item added to item_BST, USER: %s", current_item_from_file.brand);
+		LOG_VAR(DEBUG, "item added to item_BST, item: %s", current_item_from_file.brand);
 		device_insert_iterative(deviceRoot, current_item_from_file);
 		fread(&current_item_from_file, sizeof(struct user), 1, ifPtr);
 	}
@@ -127,6 +127,7 @@ void init_func() {
 		printf("ERROR!!! - could not open LOG file!");
 		exit(1);
 	}
+	fprintf(logFile, "\n\n");
 }
 
 void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifPtr) {
