@@ -24,3 +24,5 @@ void staff_addition(userTree* userRoot);
 void staff_update(userTree* userRoot);
 
 void staff_deletion(userTree** userRoot);
+
+void terminateAppSafely();

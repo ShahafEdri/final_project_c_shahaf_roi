@@ -3,7 +3,7 @@ Assigned by:
 Shahaf Edri 206328593
 */
 
-#define EXIT 0
+#define SAVE_AND_EXIT 0
 #define VIEW 1
 #define SEARCH 2
 #define ADD 3
@@ -14,11 +14,11 @@ Shahaf Edri 206328593
 #define STAFF_UPDATE 8
 #define STAFF_DELETION 9
 
-#define SIMPLE_MENU " 0-exit\n 1-view\n 2-search\n\n"
+#define SIMPLE_MENU " 0-save & exit\n 1-view\n 2-search\n\n"
 #define HAS_PERMISSION_FOR_ACTION_SIMPLE(X) ((X) > -1 && (X) < 3)
-#define EMPLOYEE_MENU " 0-exit\n 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n\n"
+#define EMPLOYEE_MENU " 0-save & exit\n 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n\n"
 #define HAS_PERMISSION_FOR_ACTION_EMPLOYEE(X) ((X) > -1 && (X) < 6)
-#define MANAGER_MENU " 0-exit\n 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n 6-staff-view\n 7-staff-addition\n 8-staff-update\n 9-staff-deletion\n\n"
+#define MANAGER_MENU " 0-save & exit\n 1-view\n 2-search\n 3-add\n 4-update\n 5-delete\n 6-staff-view\n 7-staff-addition\n 8-staff-update\n 9-staff-deletion\n\n"
 #define HAS_PERMISSION_FOR_ACTION_MANAGER(X) ((X) > -1 && (X) < 10)
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -65,7 +65,7 @@ user user_validation(userTree** root) {
 			printf("wrong username enterd too many times {%d/3}\n", tries);
 			printf("EXITING PROGRAM\n\n");
 			LOG_VAR(ERROR, "tried to enter a worng username to manny time {%d/3}", tries);
-			exit(1);
+			terminateAppSafely();
 		}
 		printf("ERROR - tried {%d/3} to enter a worng username {%s}\n", tries, user_var.username);
 		LOG_VAR(ERROR, "tried to enter a worng username {%s}", user_var.username);
@@ -85,7 +85,7 @@ user user_validation(userTree** root) {
 		if (tries >= 3) {
 			printf("ERROR - exiting program, tried maximum tries (%d/3)\n\n", tries);
 			LOG_VAR(ERROR, "user %s has entered a wrong password TOO MANY TIMES", user_var.username);
-			exit(1);
+			terminateAppSafely();
 		}
 		printf("wrong password entered\n");
 		LOG_VAR(DEBUG, "user %s has entered a wrong password", user_var.username);
@@ -122,24 +122,22 @@ void load_items_file(FILE* ifPtr, deviceTree** deviceRoot) {
 
 void init_func() {
 	errorLogFile = fopen_s(&logFile, "log_file.txt", "a");
-	if (errorLogFile)
-	{
+	if (errorLogFile) {
 		printf("ERROR!!! - could not open LOG file!");
-		exit(1);
+		terminateAppSafely();
 	}
-	fprintf(logFile, "\n\n");
 }
 
 void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifPtr) {
 	printf("\nclosing the program\n");
 
 	printf("saving to files:\n");
+
 	freopen(WORKERS_FILE_NAME, "wb", wfPtr);
 	//rewind(wfPtr);
 	printf("Workers:\n");
 	user_save_tree_to_file(userRoot, wfPtr);
 	LOG(DEBUG, "finished Workers tree saving sucessfully");
-
 	if ((errWorkers = fclose(wfPtr)) == 0)
 		LOG(DEBUG, "Workers file was closed sucessfully");
 
@@ -148,11 +146,13 @@ void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifP
 	printf("Items:\n");
 	device_save_tree_to_file(deviceRoot, ifPtr);
 	LOG(DEBUG, "finished Items tree saving sucessfully");
-
 	if ((errItems = fclose(ifPtr)) == 0)
 		LOG(DEBUG, "Items file was closed sucessfully");
+
+	fprintf(logFile, "\n\n");
 	if ((errorLogFile = fclose(logFile)) == 0)
-		LOG(DEBUG, "Items file was closed sucessfully");
+		printf("log file was closed sucessfully");
+	printf("Good Bye");
 }
 
 user create_admin() {
@@ -173,21 +173,24 @@ void main() {
 	deviceTree* deviceRoot = NULL;
 	FILE* ifPtr = (FILE*)malloc(sizeof(FILE)); // items file
 	FILE* wfPtr = (FILE*)malloc(sizeof(FILE)); // workers file
-	errItems = (fopen_s(&ifPtr, ITEMS_FILE_NAME, "rb")); // try to open file
-	errWorkers = (fopen_s(&wfPtr, WORKERS_FILE_NAME, "rb")); // try to open file
+	errItems = (fopen_s(&ifPtr, ITEMS_FILE_NAME, "rb+")); // try to open file
+	errWorkers = (fopen_s(&wfPtr, WORKERS_FILE_NAME, "rb+")); // try to open file
 
 	if ((errWorkers != 0) || (errItems != 0)) {
-		LOG(ERROR, "file could not open");
-		printf("file could not open");
-		exit(1);
+		errItems = (fopen_s(&ifPtr, ITEMS_FILE_NAME, "ab+")); // try to open file
+		errWorkers = (fopen_s(&wfPtr, WORKERS_FILE_NAME, "ab+")); // try to open file
+		if ((errWorkers != 0) || (errItems != 0)) {
+			LOG(ERROR, "file could not open");
+			printf("file could not open");
+			terminateAppSafely();
+		}
 	}
-
 	fseek(wfPtr, 0, SEEK_END);
 	if (ftell(wfPtr) == SEEK_SET) {  // file is empty
 		printf("file is empty\n");
 		user admin_user = create_admin();
 		user_insert_iterative(&userRoot, admin_user);
-		printf("new user -> admin");
+		printf("new user -> admin\n");
 	}
 	else { // file not empty
 		load_workers_file(wfPtr, &userRoot);// load_DB_worker_file
@@ -227,7 +230,7 @@ void main() {
 
 		switch (action) {
 			LOG_VAR(DEBUG, "executing action numebr %d", action);
-		case(EXIT): // exit - 0
+		case(SAVE_AND_EXIT): // exit - 0
 			LOG_VAR(INFO, "user %s chose to finish the program", user_var.fullname);
 			exitApplicationFlag = false;
 			break;
@@ -273,4 +276,5 @@ void main() {
 		}
 	}
 	end_func(userRoot, deviceRoot, wfPtr, ifPtr);
+	system("pause");
 }

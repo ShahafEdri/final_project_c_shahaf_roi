@@ -54,10 +54,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="workers.bin">
+    <None Include="items.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="items.bin">
+    <None Include="workers.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -175,7 +175,7 @@ void search_device(deviceTree* deviceRoot) {
 		enumSearchTypes searchFlag;
 		scanf_s("%d", &searchFlag);
 		printf(ITEMS_HEADER);
-		searchByDate(deviceRoot, date, searchFlag); 
+		searchByDate(deviceRoot, date, searchFlag);
 	}break;
 	default:
 		printf("Wrong input.");
@@ -209,9 +209,11 @@ void delete_device(deviceTree** deviceRoot) {
 }
 
 void view_all_staff_members(userTree* userRoot) {
-	printf("\n\n%-20s%-15s%-15s%-10s\n",
-		"fullname", "username",
-		"password", "level");
+	printf("\n\n%-15s%-15s%-20s%-10s\n",
+		"username",
+		"password",
+		"fullname",
+		"level");
 	LOG(INFO, "printing the staff members");
 	user_print_inorder(userRoot);
 }
@@ -327,3 +329,8 @@ void staff_deletion(userTree** userRoot) {
 	}
 }
 
+void terminateAppSafely() {
+	printf("VIEW LOG FILES!");
+	printf("exit(1)");
+	system("pause");
+}
