@@ -288,7 +288,7 @@ void user_save_tree_to_file(userTree* root, FILE* wfPtr) {
 	if (root) {
 		user_save_tree_to_file(root->left, wfPtr);
 		fwrite(&root->info, sizeof(struct user), 1, wfPtr);
-		LOG_VAR(DEBUG, "worker %s saved to workers file", root->info.username);
+		LOG_VAR(DEBUG, "worker %s saved to workers file", root->info.fullname);
 		printf("\tworker -> '%s' has been SAVED to workers-file\n", root->info.username);
 		user_save_tree_to_file(root->right, wfPtr);
 	}

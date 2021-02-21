@@ -51,7 +51,7 @@ void add_device(deviceTree** deviceRoot)
 	//printf("%s", item.company);
 	printf("enter item price: ");
 	scanf_s("%f", &item.price);
-	printf("enter item date dd-mm-yyyy: ");
+	printf("enter item date {by format dd-mm-yyyy}: ");
 	scanf_s("%14s", &item.date, TEXT_LEN);
 	item.stock = true;
 

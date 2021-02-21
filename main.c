@@ -126,6 +126,7 @@ void init_func() {
 		printf("ERROR!!! - could not open LOG file!");
 		terminateAppSafely();
 	}
+	fprintf(logFile, "\n");
 }
 
 void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifPtr) {
@@ -149,7 +150,7 @@ void end_func(userTree* userRoot, deviceTree* deviceRoot, FILE* wfPtr, FILE* ifP
 	if ((errItems = fclose(ifPtr)) == 0)
 		LOG(DEBUG, "Items file was closed sucessfully");
 
-	fprintf(logFile, "\n\n");
+	fprintf(logFile, "\n");
 	if ((errorLogFile = fclose(logFile)) == 0)
 		printf("log file was closed sucessfully");
 	printf("Good Bye");
@@ -276,5 +277,4 @@ void main() {
 		}
 	}
 	end_func(userRoot, deviceRoot, wfPtr, ifPtr);
-	system("pause");
 }

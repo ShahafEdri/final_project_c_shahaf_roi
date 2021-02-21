@@ -423,7 +423,7 @@ void device_save_tree_to_file(deviceTree* root, FILE* ifPtr) {
 	if (root) {
 		device_save_tree_to_file(root->left, ifPtr);
 		fwrite(&root->item, sizeof(struct device), 1, ifPtr);
-		LOG_VAR(DEBUG, "worker %d saved to items file", root->item.sn);
+		LOG_VAR(DEBUG, "device %d saved to items file", root->item.sn);
 		printf("\titem (SN) -> '%d' has been SAVED to items-file\n", root->item.sn);
 		device_save_tree_to_file(root->right, ifPtr);
 	}
